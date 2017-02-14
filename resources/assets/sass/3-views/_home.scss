@@ -1,0 +1,99 @@
+$section-border: 1px solid $medium-gray;
+
+.home {
+  .card {
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    width: 100%;
+    max-width: 310px;
+    transform: translateY(-50%);
+    height: 425px;
+    z-index: 50;
+    overflow: hidden;
+  }
+
+  .files-list {
+    font-size: 0.75em;
+    padding-bottom: 0;
+    border-top: $section-border;
+
+    .file-item {
+      margin-bottom: $base-spacing / 2;
+      padding-bottom: $base-spacing / 2;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid $light-gray;
+      }
+
+      .file-name {
+        width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+
+      .file-size {
+        color: $medium-gray;
+        font-size: 0.9em;
+      }
+
+    }
+
+  }
+
+  .setting-form {
+    border-top: $section-border;
+  }
+
+  .upload-list {
+    .file-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .loader {
+        width: 30px;
+        flex-shrink: 0;
+      }
+
+      .text {
+        flex-grow: 1;
+        min-width: 0;
+        padding-left: 15px;
+      }
+
+      .upload-progress {
+        position: relative;
+        background-color: $medium-gray;
+        height: 1.2em;
+        text-align: center;
+        color: white;
+
+        .progress {
+          position: absolute;
+          height: 100%;
+          left: 0;
+          top: 0;
+          background-color: $action-color;
+          z-index: 9;
+          transition: width 0.2s ease;
+        }
+
+        .progress-label {
+          position: absolute;
+          line-height: 1.2em;
+          font-size: 0.9em;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          z-index: 11;
+        }
+
+      }
+
+    }
+  }
+
+}

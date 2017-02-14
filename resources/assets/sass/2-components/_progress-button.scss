@@ -1,0 +1,142 @@
+.progress-button {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+
+  button {
+    display: block;
+    margin: 0 auto;
+    padding: 0;
+    text-transform: uppercase;
+    width: 181px;
+    height: 50px;
+    border: 2px solid $action-color;
+    border-radius: 40px;
+    background: transparent;
+    color: $action-color;
+    letter-spacing: 1px;
+    font-size: 18px;
+    transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+
+    &:not(:disabled) {
+      cursor: pointer;
+
+      &:hover {
+          background-color: $action-color;
+          color: #fff;
+      }
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    span {
+      transition: opacity 0.3s 0.1s;
+    }
+
+  }
+
+  svg {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+
+    path {
+      opacity: 0;
+      fill: none;
+    }
+
+    &.progress-circle path {
+      stroke: $action-color;
+      stroke-width: 5;
+    }
+
+    &.checkmark path,
+    &.cross path {
+      stroke: #fff;
+      stroke-linecap: round;
+      stroke-width: 4;
+      transition: opacity 0.1s;
+    }
+
+  }
+
+  &.loading {
+    button {
+      width: 70px;
+      height: 70px;
+      border-width: 5px;
+      border-color: #ddd;
+      background-color: transparent;
+      color: #fff;
+    }
+
+    span {
+      transition: opacity 0.15s;
+    }
+  }
+
+  &.loading,
+  &.success,
+  &.error {
+    span {
+      opacity: 0; /* keep it hidden in all states */
+    }
+
+    svg.progress-circle path,
+    svg.checkmark path,
+    svg.cross path {
+      opacity: 1;
+      transition: stroke-dashoffset 0.3s;
+    }
+
+  }
+
+  &.success button,
+  &.error button {
+    transition: background-color 0.3s, width 0.3s, border-width 0.3s;
+  }
+
+  &.success button {
+    border-color: $green;
+    background-color: $green;
+  }
+
+  &.error button {
+    border-color: $red;
+    background-color: $red;
+  }
+
+  &.elastic {
+    button {
+      transition: background-color 0.3s, color 0.3s, width 0.3s cubic-bezier(0.25, 0.25, 0.4, 1.6), border-width 0.3s, border-color 0.3s;
+    }
+
+    &.loading {
+      button {
+        transition: background-color 0.3s, color 0.3s, width 0.3s cubic-bezier(0.6, -0.6, 0.75, 0.75), border-width 0.3s, border-color 0.3s;
+      }
+    }
+
+  }
+
+  &.infinity {
+    .progress-circle {
+      transform-origin: 0 50% 0;
+      animation: rotating-progress-button 1.4s linear infinite;
+    }
+  }
+
+}
+
+@keyframes rotating-progress-button {
+  from {
+    transform: rotate(0deg) translateX(-50%);
+  }
+  to {
+    transform: rotate(360deg) translateX(-50%);
+  }
+}

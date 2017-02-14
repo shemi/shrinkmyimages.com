@@ -1,0 +1,54 @@
+.upload-form {
+
+  .upload-error {
+    font-size: 0.9em;
+    padding: $base-spacing / 2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: $light-gray;
+    border-radius: $base-border-radius;
+    margin-top: $base-spacing;
+
+    > * {
+      display: flex;
+    }
+
+    .error-icon {
+      flex-shrink: 0;
+      margin-right: 15px;
+    }
+
+    .error-message {
+      flex-grow: 1;
+      line-height: 1;
+    }
+
+  }
+
+  .add-button {
+    position: relative;
+    cursor: pointer;
+    font-size: 1.2em;
+    display: block;
+
+    > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    svg {
+      width: 2em;
+      height: auto;
+      margin-right: 6px;
+
+      path.vector {
+        //stroke: $action-color;
+        fill: $action-color;
+      }
+
+    }
+
+  }
+
+}

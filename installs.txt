@@ -1,0 +1,12 @@
+//bensquire/php-image-optim
+
+//JPEG
+sudo apt-get install jpegoptim
+sudo apt-get install jpegoptim
+
+//PNG
+sudo apt-get install advancecomp
+sudo apt-get install optipng
+sudo apt-get install pngcrush
+///cd bin && tar -xvf libpng.tar.gz && cd libpng-1.6.28 && sudo bash configure --prefix=/usr/local/libpng && sudo make install
+///sudo apt-get install pngquant

@@ -1,0 +1,13 @@
+<div class="ad-manager">
+
+    <transition-group name="fade" tag="div" class="ad-container">
+        <image-ad v-for="(ad, index) in ads"
+                  v-if="index == displayed"
+                  v-bind:key="ad.source"
+                  @next="nextAd"
+                  :ad="ad"></image-ad>
+
+    </transition-group>
+
+
+</div>

@@ -1,0 +1,48 @@
+#{$all-button-inputs},
+button {
+  &:not(.ignore-global) {
+
+    @include appearance(none);
+    -webkit-font-smoothing: antialiased;
+    background-color: $action-color;
+    border-radius: 1em;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase;
+    display: inline-block;
+    font-family: $base-font-family;
+    font-size: $base-font-size;
+    font-weight: 400;
+    line-height: 1;
+    padding: 0.75em 1em;
+    text-decoration: none;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    transform: scale(1);
+    transition: all 0.2s ease-in-out;
+
+    &.action-button {
+      font-size: 1.3em;
+      font-weight: 400;
+      padding: 0.45em 0.9em;
+    }
+
+    &:hover,
+    &:focus {
+      &:not(:disabled) {
+        background-color:$action-color;
+        color: #fff;
+        transform: scale(0.9, 1);
+      }
+    }
+
+
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: $medium-gray;
+    }
+  }
+}
