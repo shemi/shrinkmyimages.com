@@ -6,28 +6,26 @@ class Png extends Type
 {
     protected $defoultOptions = [
         '--pngquant-allow-lossy true',
-        '--no-advpng',//long
+//        '--no-advpng',//long
         '--no-optipng',//long
+        '--no-pngcrush',
+        '--no-pngout',
+        '--no-pngquant'
     ];
 
     protected $qualities = [
         'high' => [
-//            '--advpng-level 1',
-//            '--optipng-level 2',
-//            '--pngquant-quality 100..100',
             '--no-pngcrush',
             '--pngquant-speed 11',
         ],
         'best' => [
-//            '--advpng-level 2',
-//            '--optipng-level 4',
-//            '--pngquant-quality 50..100',
-            '--no-pngcrush',
-            '--pngquant-speed 3',
+//            '--pngcrush-fix true',
+            '--pngout-strategy 0',
+            '--pngquant-quality 0..90',
+            '--pngquant-speed 1',
+            '--advpng-level 2'
         ],
         'small' => [
-//            '--advpng-level 3',
-//            '--optipng-level 6',
             '--pngquant-speed 1',
         ]
     ];

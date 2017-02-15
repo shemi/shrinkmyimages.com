@@ -15,8 +15,10 @@ class Optimizer
 
     protected $globalOptions = [
         '--no-progress',
-        '--no-pngout',
+//        '--no-pngout',
 //        'threads 2',
+        '--allow-lossy',
+//        '--nice 10',
 //        '--no-nice'
     ];
 
