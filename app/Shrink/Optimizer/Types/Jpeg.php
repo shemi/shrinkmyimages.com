@@ -17,7 +17,7 @@ class Jpeg extends Type
             '--jpegrecompress-quality 3'
         ],
         'best' => [
-            '--jpegoptim-max-quality 65',
+            '--jpegoptim-max-quality 50',
             '--jpegrecompress-quality 1'
         ],
         'small' => [
