@@ -20,6 +20,7 @@
         body {  background-color: white;  }
         .card { background-color: white; }
         .app-header .brand{height:100px;display:block;text-align:center;max-width:310px;padding:.75em 0}.app-header .brand img{height:100%}
+        .dropzone-drag-visual { opacity: 0 }
     </style>
 
     <!-- Scripts -->
