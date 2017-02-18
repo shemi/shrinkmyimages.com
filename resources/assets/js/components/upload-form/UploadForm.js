@@ -20,6 +20,7 @@ export default {
     data() {
         return {
             dropzone: null,
+            shrinkId: null,
             errorMessage: "",
             dropzoneEvents: [
                 'added_file',
@@ -63,7 +64,7 @@ export default {
                 acceptedFiles: 'image/*',
                 previewTemplate: '',
                 paramName: 'image',
-                parallelUploads: 1,
+                parallelUploads: 2,
                 createImageThumbnails: false,
                 uploadMultiple: false,
                 autoProcessQueue: false,
@@ -94,6 +95,17 @@ export default {
             }
         },
 
+        reset() {
+            this.dropzone.removeAllFiles(true);
+            this.dropzone.setupEventListeners();
+            this.dropzone.options.url = this.dropzone.options.url.replace(this.shrinkId, '{id}');
+            this.shrinkId = null;
+        },
+
+        removeFile(file) {
+            this.dropzone.removeFile(file);
+        },
+
         isAccepted(file, done) {
             let exist = this.$store.getters.getFileByName(file.name);
 
@@ -121,13 +133,16 @@ export default {
 
         processQueue(shrinkId) {
             if(shrinkId) {
+                this.shrinkId = shrinkId;
+                this.dropzone.removeEventListeners();
                 this.dropzone.options.url = this.dropzone.options.url.replace('{id}', shrinkId);
+            } else if(! this.shrinkId) {
+                return;
             }
 
             this.dropzone.updateTotalUploadProgress();
             this.dropzone.processQueue();
         },
-
 
 
         onAddedFile(file) {
@@ -179,7 +194,6 @@ export default {
         },
 
         onCanceled(file) {
-
         },
 
         onMaxFilesReached(file) {
@@ -231,7 +245,7 @@ export default {
         },
 
         addButtonText() {
-            return this.files.length > 1 ? "Add more images" : "Add your images";
+            return this.files.length >= 1 ? "Add more images" : "Add your images";
         }
 
     }

@@ -14,43 +14,81 @@ use Zipper;
 class ShrinkController extends Controller
 {
 
+    private function getDownloadUrl($shrinkId, $fileId = null)
+    {
+        $base = url("shrink/{$shrinkId}/download");
+
+        return $fileId ? $base . '/' . $fileId : $base;
+    }
+
     public function show($id)
     {
         $shrink = Shrink::where('id', $id)
             ->with('files')
             ->firstOrFail();
 
-        $folder = "storage/app/{$shrink->folder_path}";
-        $zipName = "We_shrink_your_images.zip";
-        $zipFullPath = "{$folder}/{$zipName}";
-
-        if(! file_exists(base_path($zipFullPath))) {
-            $files = glob(base_path("{$folder}/*"));
-            Zipper::make(base_path($zipFullPath))->add($files)->close();
-        }
-
         return $this->respond([
             'id' => $shrink->id,
-            'downloadLink' => url("shrink/{$shrink->id}/download"),
+            'downloadLink' => $this->getDownloadUrl($shrink->id),
             'beforeTotalSize' => $shrink->before_total_size,
-            'afterTotalSize' => $shrink->after_total_size
+            'afterTotalSize' => $shrink->after_total_size,
+            'percent' => 100 - round(($shrink->after_total_size / $shrink->before_total_size) * 100, 2)
         ]);
     }
 
-    public function download($id)
+    public function download($shrinkId, $fileId = null)
     {
-        $shrink = Shrink::where('id', $id)
+        if($fileId) {
+            return $this->downloadSingle($fileId, $shrinkId);
+        } else {
+            return $this->downloadAll($shrinkId);
+        }
+    }
+
+    public function downloadAll($shrinkId)
+    {
+        $shrink = Shrink::where('id', $shrinkId)
+            ->with('files')
             ->firstOrFail();
+
+        if($shrink->files->count() <= 1) {
+            return $this->downloadSingle($shrink->files->first());
+        }
 
         $folder = "storage/app/{$shrink->folder_path}";
         $zipName = "We_shrink_your_images.zip";
         $zipFullPath = base_path("{$folder}/{$zipName}");
 
         if(! file_exists($zipFullPath)) {
-            abort(404);
+            $zip = Zipper::make($zipFullPath);
+
+            foreach ($shrink->files as $file) {
+                $zip->add(base_path("{$folder}/{$file->md5_name}"), $file->name);
+            }
+
+            $zip->close();
         }
 
         return response()->download($zipFullPath);
+    }
+
+    public function downloadSingle($id, $shrinkId = null)
+    {
+        if($id instanceof File) {
+            $file = $id;
+        } else {
+            $file = File::where('id', $id)
+                ->where('shrink_id', $shrinkId)
+                ->firstOrFail();
+        }
+
+        $filePath = base_path("storage/app/{$file->path}");
+
+        if(! file_exists($filePath)) {
+            abort(404);
+        }
+
+        return response()->download($filePath, $file->name);
     }
 
     public function create(Request $request)
@@ -122,8 +160,10 @@ class ShrinkController extends Controller
         $shrink->save();
 
         return $this->respond([
+            'downloadUrl' => $this->getDownloadUrl($file->shrink_id, $file->id),
+            'fileId' => $file->id,
             'afterSize' => $file->size_after,
-            'percent' => round(($file->size_after / $file->size_before) * 100, 2)
+            'percent' => 100 - round(($file->size_after / $file->size_before) * 100, 2)
         ]);
     }
 

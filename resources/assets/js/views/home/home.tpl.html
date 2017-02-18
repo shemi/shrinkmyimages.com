@@ -1,5 +1,6 @@
 <div class="home">
     <div class="card home-card">
+
         <div class="card-container">
             <div class="card-body" v-if="inUploadMode">
                 <div class="files-list upload-list card-pad" v-if="haveFiles">
@@ -22,18 +23,28 @@
                             </div>
                             <div class="upload-progress" v-show="file.status == 'uploading'">
                                 <div class="progress-label" :class="file.status">
-                                    <span v-if="file.upload.progress != 100">{{ file.upload.progress }}%</span>
-                                    <span v-else>Processing...</span>
+                                    <span v-if="file.upload.progress != 100">{{ file.upload.progress.toFixed(2) }}%</span>
+                                    <span v-else>Compressing...</span>
                                 </div>
                                 <div class="progress" :style="{'width': file.upload.progress + '%'}"></div>
                             </div>
+                            <a class="download-button action-button"
+                               target="_blank"
+                               :href="file.response.downloadUrl"
+                               v-if="file.response && file.response.downloadUrl"
+                               @click.prevent="download(file.response.downloadUrl)">
+                                <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                                    <path d="M0 0h24v24H0z" fill="none"/>
+                                </svg>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card-body" v-show="! inUploadMode">
 
-                <div class="card-pad">
+            <div class="card-body" v-show="! inUploadMode">
+                <div class="card-pad upload-form-pad">
                     <upload-form ref="uploadForm"
                                  @onTotalUploadProgress="updateProgress"
                                  @onQueueComplete="uploadFinish"
@@ -45,52 +56,13 @@
                     <div class="file-item" v-for="file in files">
                         <div class="file-name">{{ file.name }}</div>
                         <div class="file-size">{{ file.size | fileSize }}</div>
+                        <a class="remove-action action-button" @click.prevent="removeFile(file)">Remove</a>
                     </div>
                 </div>
-
-                <div class="card-pad setting-form">
-                    <div class="form-group">
-                        <div class="group-label">Compression mode</div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" value="high" v-model="settings.mode">
-                                <span>High quality</span>
-                            </label>
-
-                            <label>
-                                <input type="radio" value="best" v-model="settings.mode">
-                                <span>Best</span>
-                            </label>
-
-                            <label>
-                                <input type="radio" value="small" v-model="settings.mode">
-                                <span>Smallest</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-collection">
-                        <div class="collection-label">Resize</div>
-
-                        <div class="inputs">
-                            <div class="form-group">
-                                <label class="sr-only" for="image_max_with">Max width</label>
-                                <input type="number" placeholder="Max width" id="image_max_with" v-model="settings.width">
-                            </div>
-                            <div class="form-group">
-                                <label class="sr-only" for="image_max_height">Max height</label>
-                                <input type="number" id="image_max_height" placeholder="Max height" v-model="settings.height">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
             </div>
 
 
             <div class="card-actions">
-
                 <progress-button
                         @click="doFormAction()"
                         :status="status"
@@ -101,9 +73,12 @@
                     <span v-else>Shrink them</span>
                 </progress-button>
 
-                <!--<button @click.prevent="createShrink" class="action-button" :disabled="files.length < 1">-->
-                    <!--Shrink them-->
-                <!--</button>-->
+                <button class="back-button ignore-global" v-if="shrink.downloadLink" @click.prevent="back()">
+                    <svg height="30" viewBox="0 0 24 24" width="30" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                    </svg>
+                </button>
 
             </div>
         </div>

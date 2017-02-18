@@ -21,15 +21,20 @@ const vuex = new Vuex.Store({
         addFile(state, file) {
             state.queuedFiles.push(file);
         },
+
         updateFile(state, file) {
             let index = state.queuedFiles.indexOf(file);
 
             state.queuedFiles[index] = file;
+        },
+
+        removeFile(state, file) {
+            let index = state.queuedFiles.indexOf(file);
+
+            if(index > -1) {
+                state.queuedFiles.splice(index, 1);
+            }
         }
-        //TODO: implement remove file
-        // removeFile(state, file) {
-        //     state.queuedFiles.push(file);
-        // }
     },
 
     actions: {

@@ -14,12 +14,12 @@
 
 //Auth::routes();
 Route::get('ads', 'AdsController@show');
-Route::get('ad/{name}', 'AdsController@serveAdAsset');
+//Route::get('ad/{name}', 'AdsController@serveAdAsset');
 
 Route::post('shrink', 'ShrinkController@create');
 Route::get('shrink/{shrink}', 'ShrinkController@show');
 Route::post('shrink/{shrink}/upload', 'ShrinkController@upload');
-Route::get('shrink/{shrink}/download', 'ShrinkController@download');
+Route::get('shrink/{shrinkId}/download/{fileId?}', 'ShrinkController@download');
 
 Route::get('/{subs?}', 'HomeController@index')->where(['subs' => '.*']);
 

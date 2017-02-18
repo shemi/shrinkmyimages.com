@@ -44,7 +44,15 @@ export default {
             this.$refs.uploadForm.processQueue(this.shrink.id);
         },
 
+        removeFile(file) {
+            this.$refs.uploadForm.removeFile(file);
+        },
+
         updateProgress(progress) {
+            if(! this.shrink.id) {
+                return;
+            }
+
             this.totalProgress = progress[0];
         },
 
@@ -57,12 +65,24 @@ export default {
 
         doFormAction() {
             if(this.shrink.downloadLink) {
-                window.open(this.shrink.downloadLink);
+                this.download(this.shrink.downloadLink);
 
                 return;
             }
 
             this.shrinkThem();
+        },
+
+        download(url) {
+            window.open(url);
+        },
+
+        back() {
+            this.shrink = {};
+            this.status = null;
+            this.loading = false;
+            this.$refs.uploadForm.reset();
+            this.inUploadMode = false;
         },
 
         getShrinkInfo() {
@@ -74,7 +94,7 @@ export default {
                     setTimeout(function () {
                         this.loading = false;
                         this.status = null;
-                    }.bind(this), 1500);
+                    }.bind(this), 1000);
                 })
                 .catch(err => {
                     this.status = 'error';

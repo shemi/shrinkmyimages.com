@@ -13,6 +13,7 @@ return [
     */
 
     'name' => 'Shrink my images',
+    'slogan' => 'We optimize your images',
 
     /*
     |--------------------------------------------------------------------------

@@ -8,10 +8,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
+    <title>{{ config('app.name') }} | {{ config('app.slogan') }}</title>
+    <meta name="application-name" content="{{ config('app.name') }} - {{ config('app.slogan') }}"/>
+    <meta name="description" content="Compress and optimize your images for web use, We can compress your images up to 98% for less bandwidth and better user experience.">
     <!-- Styles -->
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
+
+    @include('layouts.icons')
 
     <base href="/">
 
