@@ -42,9 +42,9 @@
             </div>
         </div>
     </div>
-    <!-- Styles -->
-    <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     <!-- Scripts -->
     <script src="{{ mix('/js/app.js') }}"></script>
+    <!-- Styles -->
+    <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
 </body>
 </html>
