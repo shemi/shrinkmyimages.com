@@ -6,25 +6,26 @@ use Cache;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Image;
+use Symfony\Component\Finder\SplFileInfo;
 
 class AdsController extends Controller
 {
 
     public function show()
     {
+        $files = \File::allFiles(storage_path("app/public/ads"));
+        $ads = collect([]);
 
-        return $this->respond([
-            [
+        /** @var SplFileInfo $file */
+        foreach ($files as $file) {
+            $ads->push([
                 'type' => 'image',
-                'source' => url('storage/ads/ad1.jpg'),
-                'timeout' => 30
-            ],
-            [
-                'type' => 'image',
-                'source' => url('storage/ads/ad2.jpg'),
-                'timeout' => 30
-            ]
-        ]);
+                'source' => url('storage/ads/' . $file->getFilename()),
+                'timeout' => rand(25, 45)
+            ]);
+        }
+
+        return $this->respond($ads->shuffle()->toArray());
     }
 
 //    public function serveAdAsset($name)
