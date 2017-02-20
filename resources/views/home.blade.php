@@ -12,6 +12,7 @@
 
         <main class="main-content">
             <router-view></router-view>
+            <upload-card></upload-card>
         </main>
 
         <ad-manager></ad-manager>

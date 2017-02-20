@@ -19,7 +19,8 @@ Route::get('ads', 'AdsController@show');
 Route::post('shrink', 'ShrinkController@create');
 Route::get('shrink/{shrink}', 'ShrinkController@show');
 Route::post('shrink/{shrink}/upload', 'ShrinkController@upload');
-Route::get('shrink/{shrinkId}/download/{fileId?}', 'ShrinkController@download');
 
-Route::get('/{subs?}', 'HomeController@index')->where(['subs' => '[^storage].*']);
+Route::get('shrink/{shrinkId}/download/{fileId?}', 'DownloadController@download');
+
+Route::get('/{subs?}', 'HomeController@index')->where(['subs' => '.*']);
 

@@ -1,17 +1,15 @@
 $section-border: 1px solid $medium-gray;
 
-.home {
-  .card {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    max-width: 310px;
-    z-index: 50;
-    overflow: hidden;
-    padding-top: 100px;
-  }
+.upload-card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 310px;
+  z-index: 50;
+  overflow: hidden;
+  padding-top: 100px;
 
   .card-actions {
     position: relative;
@@ -157,5 +155,4 @@ $section-border: 1px solid $medium-gray;
 
     }
   }
-
 }

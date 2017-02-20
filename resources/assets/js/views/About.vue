@@ -1,16 +1,15 @@
 <template>
-  <div class="page-content error-404">
+  <div class="page-content about-content">
     <div class="page-pad">
-      <h1>Oops! 404</h1>
+      <h1>About</h1>
       <p>Nothing to show here. Are you sure the address is correct?</p>
-      <router-link to="/">BACK</router-link>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'NoFound',
+  name: 'About',
   data() {
     return {}
   }

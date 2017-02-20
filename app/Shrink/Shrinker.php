@@ -42,15 +42,8 @@ class Shrinker
 
     public function shrinkThis()
     {
-        $this->optimize();
-
-//        if(in_array(strtolower($this->file->ext), ['png', 'jpg', 'jpeg'])) {
-//            $this
-//                ->resize()
-//                ->save();
-//        }
-
-        $this->updateModel();
+        $this->optimize()
+            ->updateModel();
     }
 
     protected function resize()

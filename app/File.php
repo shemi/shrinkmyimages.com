@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read mixed $path
  * @property int $status
  * @method static \Illuminate\Database\Query\Builder|\App\File whereStatus($value)
+ * @property-read mixed $reduced_percentage
  */
 class File extends Model
 {
@@ -48,6 +49,15 @@ class File extends Model
     public function getPathAttribute()
     {
         return "{$this->directory}/{$this->md5_name}";
+    }
+
+    public function getReducedPercentageAttribute()
+    {
+        if(! $this->size_before || ! $this->size_after) {
+            return 0;
+        }
+
+        return 100 - round(($this->size_after / $this->size_before) * 100, 2);
     }
 
 }

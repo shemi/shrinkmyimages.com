@@ -6,11 +6,13 @@
 @import "1-layout/global";
 @import "1-layout/dropzone";
 @import "1-layout/header";
+@import "1-layout/page";
 
 @import "2-components/ad-manager";
 @import "2-components/upload-form";
 @import "2-components/card";
 @import "2-components/progress-button";
 @import "2-components/smi-loader";
+@import "2-components/upload-card";
 
-@import "3-views/home";
+//@import "3-views/home";
