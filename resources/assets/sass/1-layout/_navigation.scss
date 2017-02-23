@@ -1,0 +1,53 @@
+.navigation {
+  position: absolute;
+  right: $base-spacing;
+  top: 50%;
+  transform: translateY(-50%);
+
+  .menu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid rgba($medium-gray, 0.5);
+    background-color: rgba($light-gray, 0.8);
+    @include clearfix;
+    border-radius: 0.5em;
+
+    > li {
+      float: left;
+      padding: 5px 0;
+      transition: background-color 0.3s ease-out;
+
+      &:not(:last-child){
+        border-right: 1px solid rgba($medium-gray, 0.5);
+      }
+
+      &:last-child {
+        @include border-right-radius(0.5em);
+      }
+
+      &:first-child {
+        @include border-left-radius(0.5em);
+      }
+
+      &.router-link-active,
+      &:hover {
+        background-color: white;
+
+        > a {
+          color: $action-color;
+        }
+
+      }
+
+      > a {
+        color: black;
+        display: block;
+        padding: 3px 8px;
+      }
+
+    }
+
+  }
+
+}
