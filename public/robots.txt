@@ -2,4 +2,3 @@ User-Agent: *
 Disallow:
 Allow: /
 Disallow: /storage
-Disallow: /images
