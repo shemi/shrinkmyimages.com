@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.10 on 2017-02-22.
+ * Generated for Laravel 5.4.10 on 2017-03-03.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -12614,6 +12614,23 @@ namespace {
          */
         public static function listFiles($regexFilter = null){
             return \Chumper\Zipper\Zipper::listFiles($regexFilter);
+        }
+        
+    }
+
+
+    class Markdown extends \GrahamCampbell\Markdown\Facades\Markdown{
+        
+        /**
+         * Converts CommonMark to HTML.
+         *
+         * @param string $commonMark
+         * @return string 
+         * @api 
+         * @static 
+         */
+        public static function convertToHtml($commonMark){
+            return \League\CommonMark\Converter::convertToHtml($commonMark);
         }
         
     }

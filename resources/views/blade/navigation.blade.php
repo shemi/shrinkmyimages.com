@@ -9,8 +9,8 @@
         <router-link to="wordpress" tag="li">
             <a>WordPress</a>
         </router-link>
-        <router-link to="auth" tag="li">
-            <a>Login/Register</a>
-        </router-link>
+        {{--<router-link to="auth" tag="li">--}}
+            {{--<a>Login/Register</a>--}}
+        {{--</router-link>--}}
     </ul>
 </nav>

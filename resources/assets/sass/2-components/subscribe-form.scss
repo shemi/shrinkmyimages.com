@@ -1,0 +1,51 @@
+.subscribe-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 30px;
+
+  > div {
+    flex-grow: 1;
+  }
+
+  .loading-container {
+    width: 127px;
+    text-align: center;
+    flex-grow: 0;
+
+    .smi-loader {
+      width: 2.24em;
+      display: inline-block;
+
+      svg .loader_rotation {
+        stroke: black;
+      }
+    }
+  }
+
+
+  .form-group {
+    position: relative;
+  }
+
+  .help-block.error {
+    position: absolute;
+    left: 0;
+    right: 0;
+    color: $red;
+    font-size: 0.8em;
+    top: 93%;
+  }
+
+  .submit-field {
+    flex-grow: 0;
+  }
+
+  button[type="submit"] {
+    width: 127px;
+    text-align: center;
+    border-radius: 0;
+    border: 1px solid $action-color;
+  }
+
+}

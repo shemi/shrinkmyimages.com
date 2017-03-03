@@ -22,5 +22,9 @@ Route::post('shrink/{shrink}/upload', 'ShrinkController@upload');
 
 Route::get('shrink/{shrinkId}/download/{fileId?}', 'DownloadController@download');
 
+Route::get('page/{name}', 'PageController@show');
+
+Route::post('subscribe', 'SubscriptionController@subscribe');
+
 Route::get('/{subs?}', 'HomeController@index')->where(['subs' => '.*']);
 

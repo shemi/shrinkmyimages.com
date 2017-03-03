@@ -1,0 +1,17 @@
+<form class="subscribe-form" @submit.prevent="submit($event)" novalidate>
+
+    <div class="form-group">
+        <label class="sr-only" for="subscriber-email">Email</label>
+        <input type="email" name="email" v-model="email" id="subscriber-email" placeholder="Email">
+        <span class="help-block error" v-if="error">{{ error }}</span>
+    </div>
+
+    <div class="submit-field" v-show="! loading && ! success">
+        <button type="submit">Subscribe</button>
+    </div>
+
+    <div class="loading-container" v-show="loading || success">
+        <loader :success="success"></loader>
+    </div>
+
+</form>

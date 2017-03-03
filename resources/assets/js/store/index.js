@@ -3,7 +3,8 @@ import Vuex from 'vuex';
 const vuex = new Vuex.Store({
 
     state : {
-        queuedFiles: []
+        queuedFiles: [],
+        pages: [],
     },
 
     getters : {
@@ -13,8 +14,15 @@ const vuex = new Vuex.Store({
 
         getFileByName: (state, getters) => (name) => {
             return getters.files.find(file => file.name === name);
-        }
+        },
 
+        pages: (state) => {
+            return state.pages;
+        },
+
+        getPageByName: (state, getters) => (name) => {
+            return getters.pages.find(page => page.slug === name);
+        }
     },
 
     mutations : {
@@ -34,6 +42,10 @@ const vuex = new Vuex.Store({
             if(index > -1) {
                 state.queuedFiles.splice(index, 1);
             }
+        },
+
+        addPage(state, page) {
+            state.pages.push(page);
         }
     },
 

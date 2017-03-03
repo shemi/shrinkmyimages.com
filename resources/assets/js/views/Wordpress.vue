@@ -9,10 +9,11 @@
     import getPageContentMixin from '../mixins/getPageContentMixin';
 
     export default {
-        name: 'About',
+        name: 'Wordpress',
+
         data() {
             return {
-                pageSlug: 'about'
+                pageSlug: 'wordpress'
             }
         },
 
@@ -21,7 +22,7 @@
         },
 
         mixins: [
-            getPageContentMixin,
+            getPageContentMixin
         ]
     }
 </script>

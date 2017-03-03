@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-02-22.
+    * Generated on 2017-03-03.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -43,6 +43,11 @@ namespace PHPSTORM_META {
             'view.engine.resolver' instanceof \Illuminate\View\Engines\EngineResolver,
             'image' instanceof \Intervention\Image\ImageManager,
             'zipper' instanceof \Chumper\Zipper\Zipper,
+            'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
+            'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
+            'markdown.environment' instanceof \League\CommonMark\Environment,
+            'markdown' instanceof \League\CommonMark\Converter,
+            'markdown.compiler' instanceof \GrahamCampbell\Markdown\Compilers\MarkdownCompiler,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -168,6 +173,11 @@ namespace PHPSTORM_META {
             'view.engine.resolver' instanceof \Illuminate\View\Engines\EngineResolver,
             'image' instanceof \Intervention\Image\ImageManager,
             'zipper' instanceof \Chumper\Zipper\Zipper,
+            'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
+            'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
+            'markdown.environment' instanceof \League\CommonMark\Environment,
+            'markdown' instanceof \League\CommonMark\Converter,
+            'markdown.compiler' instanceof \GrahamCampbell\Markdown\Compilers\MarkdownCompiler,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -293,6 +303,11 @@ namespace PHPSTORM_META {
             'view.engine.resolver' instanceof \Illuminate\View\Engines\EngineResolver,
             'image' instanceof \Intervention\Image\ImageManager,
             'zipper' instanceof \Chumper\Zipper\Zipper,
+            'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
+            'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
+            'markdown.environment' instanceof \League\CommonMark\Environment,
+            'markdown' instanceof \League\CommonMark\Converter,
+            'markdown.compiler' instanceof \GrahamCampbell\Markdown\Compilers\MarkdownCompiler,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -418,6 +433,11 @@ namespace PHPSTORM_META {
             'view.engine.resolver' instanceof \Illuminate\View\Engines\EngineResolver,
             'image' instanceof \Intervention\Image\ImageManager,
             'zipper' instanceof \Chumper\Zipper\Zipper,
+            'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
+            'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
+            'markdown.environment' instanceof \League\CommonMark\Environment,
+            'markdown' instanceof \League\CommonMark\Converter,
+            'markdown.compiler' instanceof \GrahamCampbell\Markdown\Compilers\MarkdownCompiler,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
