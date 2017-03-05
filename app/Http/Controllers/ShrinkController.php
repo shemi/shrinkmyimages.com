@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\File;
 use App\Shrink;
+use App\Shrink\Repositories\ShrinkRepository;
 use App\Shrink\Repositories\UploadRepository;
 use App\Shrink\Shrinker;
 use Auth;
@@ -36,32 +37,11 @@ class ShrinkController extends Controller
         ]);
     }
 
-    public function create(Request $request)
+    public function create(Request $request, ShrinkRepository $shrinkRepository)
     {
         $user = Auth::user();
-        $shrink = new Shrink();
-        $expire = Carbon::now()
-            ->copy()
-            ->addDay();
-
-        $this->validate($request, [
-            'mode' => [
-                'required',
-                Rule::in(['high', 'best', 'small'])
-            ]
-        ]);
-
-        if ($user) {
-            $shrink->user_id = $user->id;
-        }
-
-        $shrink->expire_at = $expire;
-        $shrink->mode = $request->input('mode');
-        $shrink->max_width = $request->input('width');
-        $shrink->max_height = $request->input('height');
-
-
-        $shrink->save();
+        $shrinkRepository->validateCreateRequest($request);
+        $shrink = $shrinkRepository->create($request, $user);
 
         return $this->respond([
             'id' => $shrink->id
@@ -70,13 +50,17 @@ class ShrinkController extends Controller
 
     public function upload($shrinkId, Request $request, UploadRepository $uploadRepo)
     {
+        $user = Auth::user();
+
         $uploadRepo->validateUploadRequest($request);
-
         $shrink = Shrink::where('id', $shrinkId)->firstOrFail();
-
         $uploadRepo->upload($request, $shrink);
-
         $file = $uploadRepo->getFile();
+
+        if($user && ! $shrink->user_id) {
+            $shrink->user_id = $user->id;
+            $shrink->save();
+        }
 
         return $this->respond([
             'downloadUrl' => $this->getDownloadUrl($file->shrink_id, $file->id),

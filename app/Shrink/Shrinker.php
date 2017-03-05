@@ -33,9 +33,14 @@ class Shrinker
     protected $image;
 
 
-    public function __construct(File &$file)
+    public function __construct(File &$file, Shrink $shrink = null)
     {
-        $this->shrink = $file->shrink;
+        if($shrink) {
+            $this->shrink = $shrink;
+        } else {
+            $this->shrink = $file->shrink;
+        }
+
         $this->file = $file;
         $this->image = Image::make($this->getFileFullPath());
     }

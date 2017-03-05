@@ -172,6 +172,7 @@ return [
         Chumper\Zipper\ZipperServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
+        Clockwork\Support\Laravel\ClockworkServiceProvider::class,
 
         /*
          * Application Service Providers...

@@ -17,9 +17,8 @@ class ShrinkRepository
     public function create(Request $request, User $user = null)
     {
         $shrink = new Shrink();
-        $expire = Carbon::now()
-            ->copy()
-            ->addDay();
+        $now = Carbon::now();
+        $expire = $now->copy()->addDay();
 
         if ($user) {
             $shrink->user_id = $user->id;

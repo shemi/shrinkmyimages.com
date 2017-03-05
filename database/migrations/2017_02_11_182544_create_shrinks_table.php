@@ -26,7 +26,7 @@ class CreateShrinksTable extends Migration
             $table->bigInteger('before_total_size')->nullable();
             $table->bigInteger('after_total_size')->nullable();
 
-            $table->timestamp('expire_at');
+            $table->timestamp('expire_at')->nullable();
 
             $table->timestamps();
         });

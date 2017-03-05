@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Storage;
 
 /**
  * App\Shrink
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $status
  * @property float $before_total_size
  * @property float $after_total_size
- * @property string $expire_at
+ * @property \Carbon\Carbon $expire_at
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @method static \Illuminate\Database\Query\Builder|\App\Shrink whereAfterTotalSize($value)
@@ -36,11 +37,15 @@ use Illuminate\Database\Eloquent\Model;
 class Shrink extends Model
 {
 
+    const NEW_STATUS = 0;
+    const DELETED_STATUS = 1;
+
     protected $dates = [
+        'expire_at',
         'created_at',
-        'updated_at',
-        'expire_at'
+        'updated_at'
     ];
+
 
     public function files()
     {
@@ -68,6 +73,14 @@ class Shrink extends Model
     public function getFolderPathAttribute()
     {
         return "shrinks/{$this->id}";
+    }
+
+    public function deleteFolder()
+    {
+        Storage::deleteDirectory($this->folder_path);
+
+        $this->status = Shrink::DELETED_STATUS;
+        $this->save();
     }
 
 }

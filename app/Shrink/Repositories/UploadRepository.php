@@ -5,6 +5,7 @@ namespace App\Shrink\Repositories;
 use App\File;
 use App\Shrink;
 use App\Shrink\Shrinker;
+use Carbon\Carbon;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -133,7 +134,7 @@ class UploadRepository
      */
     public function shrinkTheImage()
     {
-        $shrinker = new Shrinker($this->file);
+        $shrinker = new Shrinker($this->file, $this->shrink);
         $shrinker->shrinkThis();
 
         return $this;
