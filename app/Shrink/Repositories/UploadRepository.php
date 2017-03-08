@@ -37,6 +37,7 @@ class UploadRepository
 
     public function upload(Request $request, Shrink $shrink)
     {
+
         $this
             ->setShrink($shrink)
             ->setUpload($request->file('image'))

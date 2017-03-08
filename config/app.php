@@ -15,6 +15,8 @@ return [
     'name' => 'Shrink my images',
     'slogan' => 'We optimize your images',
 
+    'free_api_shrinks' => 600,
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

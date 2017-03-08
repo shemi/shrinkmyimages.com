@@ -4,37 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * App\File
- *
- * @property-read \App\Shrink $shrink
- * @mixin \Eloquent
- * @property int $id
- * @property int $shrink_id
- * @property string $name
- * @property string $md5_name
- * @property string $ext
- * @property float $size_before
- * @property float $size_after
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @method static \Illuminate\Database\Query\Builder|\App\File whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\File whereExt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\File whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\File whereMd5Name($value)
- * @method static \Illuminate\Database\Query\Builder|\App\File whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\File whereShrinkId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\File whereSizeAfter($value)
- * @method static \Illuminate\Database\Query\Builder|\App\File whereSizeBefore($value)
- * @method static \Illuminate\Database\Query\Builder|\App\File whereUpdatedAt($value)
- * @property-read mixed $directory
- * @property-read mixed $path
- * @property int $status
- * @method static \Illuminate\Database\Query\Builder|\App\File whereStatus($value)
- * @property-read mixed $reduced_percentage
- */
+
 class File extends Model
 {
+    const UPLOADED_STATUS = 0;
+    const SHRINKED_STATUS = 1;
+    const NO_EFFECT_STATUS = 2;
+    const ERROR_STATUS = 3;
 
     public function shrink()
     {
