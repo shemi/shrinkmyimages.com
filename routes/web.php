@@ -11,8 +11,17 @@
 |
 */
 
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-//Auth::routes();
+Route::post('register', 'Auth\RegisterController@register');
+
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('auth/reset/{token}', 'HomeController@index')->name('password.reset');
+Route::get('password/verify/{token}', 'Auth\ResetPasswordController@verify');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
+
 Route::get('ads', 'AdsController@show');
 //Route::get('ad/{name}', 'AdsController@serveAdAsset');
 

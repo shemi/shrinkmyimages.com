@@ -3,11 +3,16 @@ import Vuex from 'vuex';
 const vuex = new Vuex.Store({
 
     state : {
+        user: {},
         queuedFiles: [],
         pages: [],
     },
 
     getters : {
+        user: (state) => {
+            return state.user;
+        },
+
         files: (state) => {
             return state.queuedFiles;
         },
@@ -28,6 +33,10 @@ const vuex = new Vuex.Store({
     mutations : {
         addFile(state, file) {
             state.queuedFiles.push(file);
+        },
+
+        setUser(state, user) {
+            state.user = user;
         },
 
         updateFile(state, file) {
@@ -58,6 +67,7 @@ const vuex = new Vuex.Store({
 
             commit('updateFile', file);
         }
+
     },
 
     modules : {

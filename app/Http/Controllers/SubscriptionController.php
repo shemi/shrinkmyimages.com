@@ -25,6 +25,7 @@ class SubscriptionController extends Controller
             return $this->respond('exists');
         }
 
+
         $lists = $subscription->lists;
         $lists[] = $request->input('list');
         $subscription->lists = $lists;

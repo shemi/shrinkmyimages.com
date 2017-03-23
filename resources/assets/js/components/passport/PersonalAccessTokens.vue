@@ -1,13 +1,3 @@
-<style scoped>
-    .action-link {
-        cursor: pointer;
-    }
-
-    .m-b-none {
-        margin-bottom: 0;
-    }
-</style>
-
 <template>
     <div>
         <div>
@@ -15,7 +5,7 @@
                 <div class="panel-heading">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span>
-                            Personal Access Tokens
+                            Access Tokens
                         </span>
 
                         <a class="action-link" @click="showCreateTokenForm">
@@ -27,11 +17,11 @@
                 <div class="panel-body">
                     <!-- No Tokens Notice -->
                     <p class="m-b-none" v-if="tokens.length === 0">
-                        You have not created any personal access tokens.
+                        You have not created any access tokens.
                     </p>
 
                     <!-- Personal Access Tokens -->
-                    <table class="table table-borderless m-b-none" v-if="tokens.length > 0">
+                    <table class="table table-borderless" v-if="tokens.length > 0">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -60,11 +50,11 @@
         </div>
 
         <!-- Create Token Modal -->
-        <div class="modal fade" id="modal-create-token" tabindex="-1" role="dialog">
+        <div class="modal" tabindex="-1" role="dialog" v-if="showCreateModal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button " class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button type="button" class="close ignore-global" @click="showCreateModal = false">&times;</button>
 
                         <h4 class="modal-title">
                             Create Token
@@ -84,13 +74,18 @@
                         </div>
 
                         <!-- Create Token Form -->
-                        <form class="form-horizontal" role="form" @submit.prevent="store">
+                        <form role="form" @submit.prevent="store">
                             <!-- Name -->
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Name</label>
+                                <label class="control-label">Name</label>
 
-                                <div class="col-md-6">
-                                    <input id="create-token-name" type="text" class="form-control" name="name" v-model="form.name">
+                                <div>
+                                    <input id="create-token-name"
+                                           type="text"
+                                           class="form-control"
+                                           name="name"
+                                           placeholder="e.g. my-website.com"
+                                           v-model="form.name">
                                 </div>
                             </div>
 
@@ -117,9 +112,11 @@
 
                     <!-- Modal Actions -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="default" @click="showCreateModal = false">
+                            Close
+                        </button>
 
-                        <button type="button" class="btn btn-primary" @click="store">
+                        <button type="button" @click="store">
                             Create
                         </button>
                     </div>
@@ -128,11 +125,11 @@
         </div>
 
         <!-- Access Token Modal -->
-        <div class="modal fade" id="modal-access-token" tabindex="-1" role="dialog">
+        <div class="modal" tabindex="-1" role="dialog" v-if="showTokenModal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button " class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button type="button" class="close ignore-global" @click="showTokenModal = false" aria-hidden="true">&times;</button>
 
                         <h4 class="modal-title">
                             Personal Access Token
@@ -141,7 +138,7 @@
 
                     <div class="modal-body">
                         <p>
-                            Here is your new personal access token. This is the only time it will be shown so don't lose it!
+                            Here is your new access token. This is the only time it will be shown so don't lose it!
                             You may now use this token to make API requests.
                         </p>
 
@@ -150,15 +147,19 @@
 
                     <!-- Modal Actions -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="default" @click="showTokenModal = false">Close</button>
                     </div>
+
                 </div>
             </div>
         </div>
+
     </div>
 </template>
 
 <script>
+    import {Http} from '../../http/index';
+
     export default {
         /*
          * The component's data.
@@ -166,9 +167,12 @@
         data() {
             return {
                 accessToken: null,
-
+                http: new Http,
                 tokens: [],
                 scopes: [],
+
+                showCreateModal: false,
+                showTokenModal: false,
 
                 form: {
                     name: '',
@@ -176,13 +180,6 @@
                     errors: []
                 }
             };
-        },
-
-        /**
-         * Prepare the component (Vue 1.x).
-         */
-        ready() {
-            this.prepareComponent();
         },
 
         /**
@@ -200,16 +197,16 @@
                 this.getTokens();
                 this.getScopes();
 
-                $('#modal-create-token').on('shown.bs.modal', () => {
-                    $('#create-token-name').focus();
-                });
+//                $('#modal-create-token').on('shown.bs.modal', () => {
+//                    $('#create-token-name').focus();
+//                });
             },
 
             /**
              * Get all of the personal access tokens for the user.
              */
             getTokens() {
-                axios.get('/oauth/personal-access-tokens')
+                this.http.get('/oauth/personal-access-tokens')
                         .then(response => {
                             this.tokens = response.data;
                         });
@@ -219,7 +216,7 @@
              * Get all of the available scopes.
              */
             getScopes() {
-                axios.get('/oauth/scopes')
+                this.http.get('/oauth/scopes')
                         .then(response => {
                             this.scopes = response.data;
                         });
@@ -229,18 +226,20 @@
              * Show the form for creating new tokens.
              */
             showCreateTokenForm() {
-                $('#modal-create-token').modal('show');
+                this.showCreateModal = true;
             },
 
             /**
              * Create a new personal access token.
              */
             store() {
+
+
                 this.accessToken = null;
 
                 this.form.errors = [];
 
-                axios.post('/oauth/personal-access-tokens', this.form)
+                this.http.post('/oauth/personal-access-tokens', this.form)
                         .then(response => {
                             this.form.name = '';
                             this.form.scopes = [];
@@ -281,18 +280,18 @@
              * Show the given access token to the user.
              */
             showAccessToken(accessToken) {
-                $('#modal-create-token').modal('hide');
+                this.showCreateModal = false;
 
                 this.accessToken = accessToken;
 
-                $('#modal-access-token').modal('show');
+                this.showTokenModal = true;
             },
 
             /**
              * Revoke the given token.
              */
             revoke(token) {
-                axios.delete('/oauth/personal-access-tokens/' + token.id)
+                this.http.delete('/oauth/personal-access-tokens/' + token.id)
                         .then(response => {
                             this.getTokens();
                         });

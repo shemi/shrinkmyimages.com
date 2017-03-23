@@ -1,3 +1,6 @@
+import AuthRouts from './auth';
+import AccountRouts from './account';
+
 import NotFound from '../views/NotFound';
 import Home from '../views/home/Home.vue';
 import About from '../views/About.vue';
@@ -10,6 +13,11 @@ const routes = [
         path      : '/',
         component : Home
     },
+
+    ...AuthRouts,
+
+    ...AccountRouts,
+
     {
         path      : '/about',
         component : About

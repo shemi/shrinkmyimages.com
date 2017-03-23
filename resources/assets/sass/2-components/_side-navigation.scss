@@ -1,0 +1,27 @@
+.side-navigation {
+
+  padding: 0;
+
+  li {
+    a{
+      display: block;
+      padding: ($base-spacing / 2) $base-spacing;
+      border-bottom: 1px solid $light-gray;
+      color: black;
+
+      &:hover {
+        color: $dark-pink;
+      }
+    }
+
+    &:first-child {
+      border-top: 1px solid $light-gray;
+    }
+
+    &.router-link-active a {
+      background-color: rgba($light-gray, 0.6);
+    }
+
+  }
+
+}

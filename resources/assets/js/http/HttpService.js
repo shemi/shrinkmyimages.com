@@ -22,7 +22,10 @@ export default class HttpService
         };
 
         this.instance.interceptors.request.use(this.requestInterceptors);
-        this.instance.interceptors.response.use(this.responseInterceptors);
+        this.instance.interceptors.response.use(
+            this.successResponseInterceptors,
+            this.errorResponseInterceptors
+        );
     }
 
     getBaseURL()
@@ -32,17 +35,26 @@ export default class HttpService
 
     requestInterceptors(request)
     {
-
         return request;
     }
 
-    responseInterceptors(response)
+    successResponseInterceptors(response)
     {
-        response.data = response.data.data;
+        if(response.data.data) {
+            response.data = response.data.data;
+        }
 
         return response;
     }
 
+    errorResponseInterceptors(error)
+    {
+        if(error.response.data.data) {
+            error.response.data = error.response.data.data;
+        }
+
+        return Promise.reject(error);
+    }
 
     get(url = "", data = {}, config = {})
     {
@@ -67,4 +79,14 @@ export default class HttpService
     {
         return this.instance.patch(url, data, config);
     }
+
+    delete(url = "", data = {}, config = {})
+    {
+        config = Object.assign({}, {
+            'params': data
+        }, config);
+
+        return this.instance.delete(url, config);
+    }
+
 }

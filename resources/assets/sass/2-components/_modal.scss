@@ -1,0 +1,56 @@
+.modal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(black, 0.75);
+  z-index: 150;
+
+  .modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    background-color: white;
+  }
+
+  .modal-footer,
+  .modal-body,
+  .modal-header {
+    position: relative;
+    padding: $base-spacing;
+  }
+
+  .close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: black;
+    font-size: 1.5em;
+    border: 0;
+    box-shadow: none;
+    color: white;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .modal-title {
+    font-size: 1.3em;
+    margin: 0;
+  }
+
+  code {
+    width: 100%;
+    word-break: break-all;
+    white-space: normal;
+    background-color: #ececec;
+    display: block;
+    height: 260px;
+    padding: 1em;
+    overflow: auto;
+    margin: 1em 0 0 0;
+  }
+
+}

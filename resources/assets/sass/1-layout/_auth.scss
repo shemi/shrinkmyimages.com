@@ -1,0 +1,113 @@
+.auth-page {
+  width: 100%;
+  max-width: calc(100% - 310px);
+  position: relative;
+  height: 100vh;
+  z-index: 50;
+  margin: 0 0 0 auto;
+  padding: 100px 50px;
+
+  .auth-card {
+    width: 100%;
+    max-width: 400px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-color: white;
+    padding: 15px 25px 30px;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+  }
+
+  .card-nav {
+    margin-bottom: 15px;
+    text-align: center;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      display: inline-block;
+      @include clearfix;
+
+      li {
+        display: block;
+        float: left;
+        text-transform: uppercase;
+        padding: 0;
+
+        &:not(:last-child):after {
+          content: "";
+          display: inline-block;
+          height: 1em;
+          width: 2px;
+          background-color: black;
+          //margin: 0 6px;
+        }
+
+        a {
+          padding: 0 6px;
+          font-size: 1.4em;
+          color: black;
+        }
+
+        &.router-link-active a {
+          text-decoration: underline;
+        }
+
+      }
+
+    }
+  }
+
+  .auth-main-form {
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    .help-group {
+      p,
+      a {
+        color: black;
+        display: block;
+        line-height: 1.2;
+        font-size: 0.8em;
+      }
+
+      &.terms {
+        margin: 30px 0;
+      }
+
+    }
+
+    .submit-group {
+      margin: 15px 0;
+      text-align: center;
+    }
+
+    .loading-container {
+      width: 127px;
+      text-align: center;
+      flex-grow: 0;
+      margin: 0 auto;
+
+      .smi-loader {
+        height: 3.1em;
+        display: inline-block;
+
+        svg .loader_rotation {
+          stroke: black;
+        }
+      }
+    }
+
+  }
+
+  .loading-container-verify {
+    width: 70%;
+    margin: 0 auto;
+  }
+
+}

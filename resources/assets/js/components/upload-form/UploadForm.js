@@ -240,7 +240,6 @@ export default {
 
     computed: {
         files() {
-            console.log(this.$store.getters.files);
             return this.$store.getters.files;
         },
 

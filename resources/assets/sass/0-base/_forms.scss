@@ -146,3 +146,13 @@ label.sr-only {
   clip: rect(0,0,0,0);
   border: 0;
 }
+
+span.help-block.error {
+  color: shade($red, 30);
+  font-size: 0.8em;
+}
+
+.form-error-massage {
+  margin-bottom: 15px;
+  color: shade($red, 30);
+}

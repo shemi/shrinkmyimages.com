@@ -5,7 +5,7 @@ button {
     @include appearance(none);
     -webkit-font-smoothing: antialiased;
     background-color: $action-color;
-    border-radius: 1em;
+    border-radius: 0;
     border: none;
     color: #fff;
     cursor: pointer;
@@ -44,5 +44,21 @@ button {
       cursor: not-allowed;
       background-color: $medium-gray;
     }
+
+    &.default {
+      background-color: $light-gray;
+      color: black;
+
+      &:hover,
+      &:focus {
+        &:not(:disabled) {
+          background-color: shade($light-gray, 15);
+          color: black;
+          transform: scale(1, 1);
+        }
+      }
+
+    }
+
   }
 }

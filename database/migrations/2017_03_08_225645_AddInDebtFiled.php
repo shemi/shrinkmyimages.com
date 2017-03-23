@@ -13,7 +13,7 @@ class AddInDebtFiled extends Migration
      */
     public function up()
     {
-        Schema::table('Users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->boolean('in_debt')->default(0);
             $table->integer('debt_amount')->nullable();
         });
@@ -26,8 +26,9 @@ class AddInDebtFiled extends Migration
      */
     public function down()
     {
-        Schema::table('Users', function (Blueprint $table) {
-
+        Schema::table('users', function (Blueprint $table) {
+            $table->removeColumn('in_debt');
+            $table->removeColumn('debt_amount');
         });
     }
 }

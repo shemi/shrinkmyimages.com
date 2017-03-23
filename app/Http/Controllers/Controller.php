@@ -55,7 +55,14 @@ class Controller extends BaseController
 
     public function respondBadRequest($message = 'Bad Request')
     {
-        return $this->setStatusCode(400)->respondWithError($message);
+        return $this->setStatusCode(422)->respondWithError($message);
+    }
+
+    public function respondUnprocessableEntity($data)
+    {
+        $this->setStatusCode(422);
+
+        return Response::json($data, $this->getStatusCode());
     }
 
     public function respondWithError($message, $resultCode = 'err')

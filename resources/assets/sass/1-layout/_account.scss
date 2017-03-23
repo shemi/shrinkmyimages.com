@@ -1,0 +1,19 @@
+.account-layout {
+  .page-pad {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 100%;
+  }
+
+  .side-bar {
+    width: 30%;
+    flex-grow: 0;
+    border-left: 1px solid $light-gray;
+  }
+
+  .main-page-content {
+    flex-grow: 1;
+  }
+
+}

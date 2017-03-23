@@ -48,13 +48,8 @@
 
   }
 
+  &.fail,
   &.success {
-
-    .loader_background {
-      fill: $green;
-    }
-
-    .loader_path,
     .loader_background {
       opacity: 1;
       stroke-dashoffset: 0;
@@ -62,6 +57,28 @@
 
     .loader_rotation {
       opacity: 0;
+    }
+  }
+
+  &.success {
+    .loader_background {
+      fill: $green;
+    }
+
+    .loader_path.success {
+      opacity: 1;
+      stroke-dashoffset: 0;
+    }
+  }
+
+  &.fail {
+    .loader_background {
+      fill: shade($red, 5);
+    }
+
+    .loader_path.fail {
+      opacity: 1;
+      stroke-dashoffset: 0;
     }
   }
 
