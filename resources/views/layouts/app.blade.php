@@ -62,9 +62,7 @@
     <!-- Scripts -->
     <script>
         window.SMI = {!! json_encode([
-            'state' => [
-                'user' => auth()->user()
-            ],
+            'state' => isset($state) ? $state : ['user' => null],
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>

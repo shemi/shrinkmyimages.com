@@ -44,6 +44,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
+    protected $balanceInc;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -77,6 +79,10 @@ class User extends Authenticatable
      */
     public function getBalanceAttribute()
     {
+        if(isset($this->balanceInc) && ! empty($this->balanceInc)) {
+            return $this->balanceInc;
+        }
+
         $now = Carbon::now();
 
         $balance = $this->balances()
@@ -87,6 +93,8 @@ class User extends Authenticatable
         if(! $balance) {
             $balance = Balance::createNewForUser($this);
         }
+
+        $this->balanceInc = $balance;
 
         return $balance;
     }

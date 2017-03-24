@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -40,7 +41,7 @@ class Balance extends Model
 
     public function credits()
     {
-        return $this->hasManyThrough(Credit::class, User::class);
+        return $this->hasManyThrough(Credit::class, User::class, 'id', 'user_id', 'user_id');
     }
 
     public static function createNewForUser(User $user)

@@ -25,7 +25,7 @@ class ShrinkRepository
         }
 
         $shrink->expire_at = $expire;
-        $shrink->mode = $request->input('mode');
+        $shrink->mode = $request->input('mode') ?: 'best';
 
         $shrink->save();
 

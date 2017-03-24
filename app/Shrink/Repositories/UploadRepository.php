@@ -34,11 +34,36 @@ class UploadRepository
      */
     private $beforeSize;
 
+    public function uploadOnly(Request $request, Shrink $shrink)
+    {
+        $this
+            ->setShrink($shrink)
+            ->setUpload($request->file('image'))
+            ->setBeforeSize($this->upload->getSize())
+            ->updateShrinkBeforeTotalSize()
+            ->createFileModel()
+            ->storeFileInShrinkFolder();
+    }
 
+    public function shrinkOnly(File $file)
+    {
+        $this->file = $file;
+        $this->shrink = $file->shrink;
+
+        $this->shrinkTheImage()
+            ->updateShrinkAfterTotalSize()
+            ->saveModels();
+    }
+
+    /**
+     * @param Request $request
+     * @param Shrink $shrink
+     * @return File
+     */
     public function upload(Request $request, Shrink $shrink)
     {
 
-        $this
+        return $this
             ->setShrink($shrink)
             ->setUpload($request->file('image'))
             ->setBeforeSize($this->upload->getSize())
@@ -49,6 +74,15 @@ class UploadRepository
             ->updateShrinkAfterTotalSize()
             ->saveModels();
 
+    }
+
+    public function remoteUpload($url)
+    {
+        $content = file_get_contents($url);
+
+        $storage = \Storage::put('', $content);
+
+        $image = UploadedFile::createFromBase();
     }
 
     /**
@@ -155,14 +189,14 @@ class UploadRepository
     }
 
     /**
-     * @return $this
+     * @return File
      */
     public function saveModels()
     {
         $this->shrink->save();
         $this->file->save();
 
-        return $this;
+        return $this->file;
     }
 
     /**

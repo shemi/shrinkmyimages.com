@@ -9,11 +9,14 @@
   .side-bar {
     width: 30%;
     flex-grow: 0;
+    flex-shrink: 0;
     border-left: 1px solid $light-gray;
   }
 
   .main-page-content {
     flex-grow: 1;
+    padding-right: 50px;
   }
+
 
 }

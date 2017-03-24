@@ -16,6 +16,8 @@ return [
     'slogan' => 'We optimize your images',
 
     'free_api_shrinks' => 600,
+    'web_images_per_shrink' => 25,
+    'web_images_per_shrink_member' => 50,
 
     /*
     |--------------------------------------------------------------------------
