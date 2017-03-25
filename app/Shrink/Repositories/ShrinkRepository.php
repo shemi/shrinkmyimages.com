@@ -14,7 +14,7 @@ class ShrinkRepository
 {
     use ValidatesRequests;
 
-    public function create(Request $request, User $user = null)
+    public function create(Request $request, User $user = null, $type = 'web')
     {
         $shrink = new Shrink();
         $now = Carbon::now();
@@ -26,6 +26,7 @@ class ShrinkRepository
 
         $shrink->expire_at = $expire;
         $shrink->mode = $request->input('mode') ?: 'best';
+        $shrink->type = $type;
 
         $shrink->save();
 

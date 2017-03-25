@@ -114,6 +114,7 @@ class Balance extends Model
     public function addReserved($amount = 1)
     {
         $this->reserved += $amount;
+        $this->save();
 
         return $this;
     }
@@ -126,6 +127,7 @@ class Balance extends Model
     {
         if($this->reserved > 0) {
             $this->reserved -= $amount;
+            $this->save();
         }
 
         return $this;
@@ -135,6 +137,7 @@ class Balance extends Model
     {
         $this->total += $this->reserved;
         $this->reserved = 0;
+        $this->save();
 
         return $this;
     }
@@ -146,6 +149,7 @@ class Balance extends Model
     public function addTotal($amount = 1)
     {
         $this->total += $amount;
+        $this->save();
 
         return $this;
     }
@@ -158,6 +162,7 @@ class Balance extends Model
     {
         if($this->total > 0) {
             $this->total -= $amount;
+            $this->save();
         }
 
         return $this;

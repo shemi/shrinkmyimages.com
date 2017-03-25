@@ -34,38 +34,18 @@ class UploadRepository
      */
     private $beforeSize;
 
-    public function uploadOnly(Request $request, Shrink $shrink)
-    {
-        $this
-            ->setShrink($shrink)
-            ->setUpload($request->file('image'))
-            ->setBeforeSize($this->upload->getSize())
-            ->updateShrinkBeforeTotalSize()
-            ->createFileModel()
-            ->storeFileInShrinkFolder();
-    }
-
-    public function shrinkOnly(File $file)
-    {
-        $this->file = $file;
-        $this->shrink = $file->shrink;
-
-        $this->shrinkTheImage()
-            ->updateShrinkAfterTotalSize()
-            ->saveModels();
-    }
-
     /**
-     * @param Request $request
+     * @param UploadedFile $uploadedFile
      * @param Shrink $shrink
      * @return File
+     * @internal param Request $request
      */
-    public function upload(Request $request, Shrink $shrink)
+    public function upload(UploadedFile $uploadedFile, Shrink $shrink)
     {
 
         return $this
             ->setShrink($shrink)
-            ->setUpload($request->file('image'))
+            ->setUpload($uploadedFile)
             ->setBeforeSize($this->upload->getSize())
             ->updateShrinkBeforeTotalSize()
             ->createFileModel()
@@ -74,15 +54,6 @@ class UploadRepository
             ->updateShrinkAfterTotalSize()
             ->saveModels();
 
-    }
-
-    public function remoteUpload($url)
-    {
-        $content = file_get_contents($url);
-
-        $storage = \Storage::put('', $content);
-
-        $image = UploadedFile::createFromBase();
     }
 
     /**
@@ -160,6 +131,7 @@ class UploadRepository
     public function storeFileInShrinkFolder()
     {
         $this->upload->storeAs($this->file->directory, $this->file->md5_name);
+        $this->shrink->total_files += 1;
 
         return $this;
     }

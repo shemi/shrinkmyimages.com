@@ -13,23 +13,27 @@
                     <router-link to="/account/api" tag="li">
                         <a>API</a>
                     </router-link>
-                    <router-link to="/account/securety" tag="li">
-                        <a>Securety</a>
-                    </router-link>
-                    <router-link to="/account/logout" tag="li">
-                        <a>Logout</a>
-                    </router-link>
+                    <!--<router-link to="/account/securety" tag="li">-->
+                        <!--<a>Securety</a>-->
+                    <!--</router-link>-->
+                    <li>
+                        <a href="#!" @click.prevent="logout()">Logout</a>
+                    </li>
 
                 </ul>
             </nav>
+
         </div>
     </page-template>
 </template>
 
 <script>
+    import auth from '../../mixins/auth';
     import pageTemplate from '../../components/PageTemplate.vue';
 
     export default {
+
+        mixins: [auth],
 
         data() {
             return {

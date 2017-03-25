@@ -38,6 +38,7 @@ use Storage;
  * @method static \Illuminate\Database\Query\Builder|\App\Shrink whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Shrink whereUserId($value)
  * @mixin \Eloquent
+ * @property-read mixed $percent
  */
 class Shrink extends Model
 {
@@ -86,6 +87,11 @@ class Shrink extends Model
 
         $this->status = Shrink::DELETED_STATUS;
         $this->save();
+    }
+
+    public function getPercentAttribute()
+    {
+        return round(100 - round(($this->after_total_size / $this->before_total_size) * 100, 2), 2);
     }
 
 }

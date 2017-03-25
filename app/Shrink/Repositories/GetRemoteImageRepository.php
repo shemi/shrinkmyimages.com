@@ -2,18 +2,26 @@
 
 namespace App\Shrink\Repositories;
 
+use Illuminate\Http\UploadedFile;
+
 class GetRemoteImageRepository
 {
     private $source;
-    private $saveTo;
+    private $tempFilePath;
+    private $imageInfo;
+
+    public function __construct($source)
+    {
+        $this->source = $source;
+    }
 
     public function download()
     {
-        $info = getimagesize($this->source);
-        $mime = $info['mime'];
-        $type = substr(strrchr($mime, '/'), 1);
+        $this->createTempFile();
+        $this->loadImageCURL();
+        $this->setImageInfo();
 
-        switch ($type) {
+        switch ($this->getClientMimeType()) {
             case 'jpeg':
                 $newImageExt = 'jpg';
                 break;
@@ -27,18 +35,49 @@ class GetRemoteImageRepository
                 $newImageExt = 'jpg';
         }
 
-        $ext = strrchr($this->source, ".");
-        $strLen = strlen($ext);
-        $newName = basename(substr($this->source, 0, -$strLen)) . '.' . $newImageExt;
-        $saveTo = $this->saveTo . $newName;
+        $clientFileName = pathinfo($this->source, PATHINFO_FILENAME) . '.' . $newImageExt;
 
-        return $this->loadImageCURL($saveTo);
+        return new UploadedFile(
+            $this->tempFilePath,
+            $clientFileName,
+            $this->getClientMimeType(),
+            filesize($this->tempFilePath),
+            0,
+            true
+        );
     }
 
-    private function loadImageCURL($save_to)
+    private function setImageInfo()
+    {
+        $this->imageInfo = getimagesize($this->tempFilePath);
+    }
+
+    private function createTempFile()
+    {
+        $this->tempFilePath = tempnam(sys_get_temp_dir(), uniqid('smi', true));
+    }
+
+    private function getClientMimeType()
+    {
+        return $this->imageInfo['mime'];
+    }
+
+    public function deleteTempFile()
+    {
+        if(file_exists($this->tempFilePath)) {
+            unlink($this->tempFilePath);
+        }
+    }
+
+    private function getClientFileName()
+    {
+        return basename($this->source);
+    }
+
+    private function loadImageCURL()
     {
         $ch = curl_init($this->source);
-        $fp = fopen($save_to, "wb");
+        $fp = fopen($this->tempFilePath, "wb");
 
         $options = [
             CURLOPT_FILE => $fp,
@@ -54,4 +93,5 @@ class GetRemoteImageRepository
 
         return true;
     }
+
 }

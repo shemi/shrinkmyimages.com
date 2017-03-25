@@ -2,24 +2,39 @@ import {Auth, Login, Register, Forgot, Reset} from '../views/auth/index';
 
 const routs = [
     {
-        path      : '/auth',
-        component : Auth,
+        path: '/auth',
+        component: Auth,
         redirect: '/auth/login',
+        meta: {
+            middleware: 'guest'
+        },
         children: [
             {
-                path      : 'login',
+                meta: {
+                    middleware: 'guest'
+                },
+                path: 'login',
                 component: Login
             },
             {
-                path      : 'register',
+                meta: {
+                    middleware: 'guest'
+                },
+                path: 'register',
                 component: Register
             },
             {
-                path      : 'forgot',
+                meta: {
+                    middleware: 'guest'
+                },
+                path: 'forgot',
                 component: Forgot
             },
             {
-                path      : 'reset/:token',
+                meta: {
+                    middleware: 'guest'
+                },
+                path: 'reset/:token',
                 component: Reset
             }
         ]

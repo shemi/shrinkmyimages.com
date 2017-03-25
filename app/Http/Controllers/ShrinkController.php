@@ -54,7 +54,7 @@ class ShrinkController extends Controller
 
         $uploadRepo->validateUploadRequest($request);
         $shrink = Shrink::where('id', $shrinkId)->firstOrFail();
-        $uploadRepo->upload($request, $shrink);
+        $uploadRepo->upload($request->file('image'), $shrink);
         $file = $uploadRepo->getFile();
 
         if($user && ! $shrink->user_id) {
