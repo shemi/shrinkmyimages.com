@@ -11,9 +11,13 @@ import AdManager from './components/ad-manager/AdManager.vue';
 import UploadCard from './components/upload-card/UploadCard.vue';
 import SubscribeForm from './components/subscribe-form/SubscribeForm.vue';
 
+import VueClipboards from 'vue-clipboards';
+
 import { mixin as focusMixin }  from 'vue-focus';
 
 Vue.component('subscribe-form', SubscribeForm);
+
+Vue.use(VueClipboards);
 
 const app = new Vue({
     el: '#app',
@@ -23,9 +27,7 @@ const app = new Vue({
     mixins: [auth, focusMixin],
 
     created() {
-        if(window.SMI.state.user) {
-            this.setUser(window.SMI.state.user);
-        }
+        this.setAppState(window.SMI.state);
     },
 
     components: {

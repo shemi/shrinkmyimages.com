@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Shrink\Repositories\UserStateRepository;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -47,11 +48,7 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        return $this->respond([
-            'name' => $user->name,
-            'id' => $user->id,
-            'email' => $user->email
-        ]);
+        return $this->respond(UserStateRepository::state($user));
     }
 
     /**
