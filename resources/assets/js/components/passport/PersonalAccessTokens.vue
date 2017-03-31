@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div class="access-tokens-card">
         <div>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
                         <span>
                             Access Tokens
                         </span>
@@ -16,8 +16,12 @@
 
                 <div class="panel-body">
                     <!-- No Tokens Notice -->
-                    <p class="m-b-none" v-if="tokens.length === 0">
+                    <p class="m-b-none empty-message" v-if="!loading && tokens.length === 0">
                         You have not created any access tokens.
+                    </p>
+
+                    <p class="m-b-none loading-message" v-if="loading">
+                        Loading...
                     </p>
 
                     <!-- Personal Access Tokens -->
@@ -178,6 +182,7 @@
          */
         data() {
             return {
+                loading: true,
                 accessToken: null,
                 http: new Http,
                 copyMassage: null,
@@ -222,6 +227,7 @@
             getTokens() {
                 this.http.get('/oauth/personal-access-tokens')
                         .then(response => {
+                            this.loading = false;
                             this.tokens = response.data;
                         });
             },

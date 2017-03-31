@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Call;
 use App\Shrink\Repositories\GetRemoteImageRepository;
 use App\Shrink\Repositories\ShrinkRepository;
 use App\Shrink\Repositories\UploadRepository;
@@ -14,6 +15,8 @@ class ShrinkController extends ApiController
 
     public function shrink(Request $request, ShrinkRepository $shrinkRepository, UploadRepository $uploadRepository)
     {
+        $amount = 0;
+
         $this->validate($request, [
             'image' => 'required_without:imageUrl|image|max:20000',
             'imageUrl' => 'required_without:image|url'
@@ -26,6 +29,7 @@ class ShrinkController extends ApiController
             return $this->respondBadRequest('No enough credit');
         }
 
+        $amount = 1;
         $user->balance->addTotal();
         $shrink = $shrinkRepository->create($request, $user, 'api');
 
@@ -47,6 +51,7 @@ class ShrinkController extends ApiController
             if($validator->fails()) {
                 $user->balance->subtractTotal();
                 $remoteUploadFile->deleteTempFile();
+                $this->createCallModel($request, $user, $shrink->id, 0);
 
                 return $this->respondBadRequest($validator->errors());
             }
@@ -57,6 +62,7 @@ class ShrinkController extends ApiController
 
         if($shrink->percent < 5) {
             $user->balance->subtractTotal();
+            $amount = 0;
         }
 
         /*
@@ -68,7 +74,7 @@ class ShrinkController extends ApiController
         }
 
 
-
+        $this->createCallModel($request, $user, $shrink->id, $amount);
         $filePath = base_path("storage/app/{$file->path}");
 
         return response()
@@ -82,6 +88,19 @@ class ShrinkController extends ApiController
     public function bulk()
     {
 
+    }
+
+    private function createCallModel(Request $request, User $user, $shrinkId, $credit, $action = 'shrink')
+    {
+        $call = new Call();
+        $call->user_id = $user->id;
+        $call->shrink_id = $shrinkId;
+        $call->type = "ShrinkController@{$action}";
+        $call->status = 2;
+        $call->from_ip = $request->ip();
+        $call->credit = $credit;
+        $call->caller_identifier = $user->token()->id;
+        $call->save();
     }
 
 }

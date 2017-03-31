@@ -23,6 +23,22 @@ const vuex = new Vuex.Store({
             return state.appState.webImagesPerShrink;
         },
 
+        totalApiPrePaidCredits: (state) => {
+            return state.appState.totalApiPrePaidCredits;
+        },
+
+        totalApiUsedCredits: (state) => {
+            return state.appState.totalApiUsedCredits;
+        },
+
+        countResetHumans: (state) => {
+            return state.appState.countResetHumans;
+        },
+
+        countResetDate: (state) => {
+            return state.appState.countResetDate;
+        },
+
         getFileByName: (state, getters) => (name) => {
             return getters.files.find(file => file.name === name);
         },
@@ -47,6 +63,14 @@ const vuex = new Vuex.Store({
 
         setAppState(state, appState) {
             state.appState = appState;
+        },
+
+        setTotalApiPrePaidCredits: (state, score) => {
+            state.appState.totalApiPrePaidCredits = score;
+        },
+
+        setTotalApiUsedCredits: (state, score) => {
+            state.appState.totalApiUsedCredits = score;
         },
 
         updateFile(state, file) {
