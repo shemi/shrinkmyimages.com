@@ -110,6 +110,10 @@ export default {
 
         haveFiles() {
             return this.files.length > 0;
+        },
+
+        webImagesPerShrink() {
+            return this.$store.getters.webImagesPerShrink;
         }
 
     },

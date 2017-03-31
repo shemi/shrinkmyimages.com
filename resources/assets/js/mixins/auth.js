@@ -3,8 +3,8 @@ import {Http} from '../http/index';
 export default {
 
     methods: {
-        setUser(user) {
-            this.$store.commit('setUser', user);
+        setAppState(state) {
+            this.$store.commit('setAppState', state);
         },
 
         redirectIfAuthenticated() {

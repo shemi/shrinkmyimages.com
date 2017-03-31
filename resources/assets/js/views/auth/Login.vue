@@ -68,8 +68,8 @@
                 let self = this;
 
                 this.form.post("/login")
-                        .then(function (user) {
-                            self.setUser(user);
+                        .then(function (state) {
+                            self.setAppState(state);
 
                             self.$nextTick(function () {
                                 self.redirectIfAuthenticated();

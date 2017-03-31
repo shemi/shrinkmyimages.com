@@ -12,7 +12,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-    let user = store.getters.user;
+    let user = store.getters.user || {};
 
     if(! user.id) {
         user = SMI.state.user;

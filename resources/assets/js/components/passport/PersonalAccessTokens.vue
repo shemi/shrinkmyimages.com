@@ -125,7 +125,7 @@
         </div>
 
         <!-- Access Token Modal -->
-        <div class="modal" tabindex="-1" role="dialog" v-if="showTokenModal">
+        <div class="modal access-token-copy-modal" tabindex="-1" role="dialog" v-if="showTokenModal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -142,7 +142,19 @@
                             You may now use this token to make API requests.
                         </p>
 
-                        <pre><code>{{ accessToken }}</code></pre>
+                        <p class="copy-massage" v-if="copyMassage">
+                            {{ copyMassage }}
+                        </p>
+
+                        <div class="access-token-field-container">
+                            <input type="text" class="access-token-field" v-model="accessToken" readonly>
+                            <button v-clipboard="accessToken"
+                                    @success="handleSuccessCopy"
+                                    @error="handleErrorCopy">
+                                Copy
+                            </button>
+                        </div>
+
                     </div>
 
                     <!-- Modal Actions -->
@@ -168,6 +180,8 @@
             return {
                 accessToken: null,
                 http: new Http,
+                copyMassage: null,
+                copyMassageClock: null,
                 tokens: [],
                 scopes: [],
 
@@ -295,6 +309,36 @@
                         .then(response => {
                             this.getTokens();
                         });
+            },
+
+            handleSuccessCopy() {
+                if(this.copyMassage) {
+                    this.removeCopyMassage(true);
+                }
+
+                this.copyMassage = "the token successfully copied to clipboard";
+                this.removeCopyMassage();
+            },
+
+            handleErrorCopy() {
+                if(this.copyMassage) {
+                    this.removeCopyMassage(true);
+                }
+
+                this.copyMassage = "We could not copy the token in to the clipboard :(";
+                this.removeCopyMassage();
+            },
+
+            removeCopyMassage(fast = false) {
+                if(this.copyMassageClock) {
+                    clearTimeout(this.copyMassageClock);
+                    this.copyMassageClock = null;
+                }
+
+                this.copyMassageClock = setTimeout(function () {
+                    this.copyMassage = null;
+                    this.copyMassageClock = null;
+                }.bind(this), fast ? 0 : 8000);
             }
         }
     }

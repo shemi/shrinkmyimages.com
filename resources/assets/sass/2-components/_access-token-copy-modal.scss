@@ -1,0 +1,27 @@
+.access-token-copy-modal {
+
+  .copy-massage {
+    text-align: center;
+    margin: 32px 0;
+    font-weight: 900;
+  }
+
+  .access-token-field-container {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+
+    input {
+      flex-grow: 1;
+      background-color: $light-gray;
+    }
+
+    button {
+      flex-grow: 0;
+      flex-shrink: 0;
+    }
+
+  }
+
+}

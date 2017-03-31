@@ -51,9 +51,22 @@ class ShrinkController extends Controller
     public function upload($shrinkId, Request $request, UploadRepository $uploadRepo)
     {
         $user = Auth::user();
+        $uploadLimit = config('app.web_images_per_shrink');
 
         $uploadRepo->validateUploadRequest($request);
+
+        if($user) {
+            $uploadLimit = config('app.web_images_per_shrink_member');
+        }
+
         $shrink = Shrink::where('id', $shrinkId)->firstOrFail();
+
+        if($shrink->files()->count() + 1 > $uploadLimit) {
+            return $this->respondUnprocessableEntity([
+                'image' => "You limited to {$uploadLimit} uploads at once"
+            ]);
+        }
+
         $uploadRepo->upload($request->file('image'), $shrink);
         $file = $uploadRepo->getFile();
 

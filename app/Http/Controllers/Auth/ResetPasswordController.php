@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Shrink\Repositories\UserStateRepository;
 use Auth;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
@@ -47,13 +48,7 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetResponse($response)
     {
-        $user = Auth::user();
-
-        return $this->respond([
-            'name' => $user->name,
-            'id' => $user->id,
-            'email' => $user->email
-        ]);
+        return $this->respond(UserStateRepository::state(Auth::user()));
     }
 
     /**

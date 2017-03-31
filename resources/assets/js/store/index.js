@@ -3,18 +3,24 @@ import Vuex from 'vuex';
 const vuex = new Vuex.Store({
 
     state : {
-        user: {},
+        appState: {
+            user: {}
+        },
         queuedFiles: [],
         pages: [],
     },
 
     getters : {
         user: (state) => {
-            return state.user;
+            return state.appState.user;
         },
 
         files: (state) => {
             return state.queuedFiles;
+        },
+
+        webImagesPerShrink: (state) => {
+            return state.appState.webImagesPerShrink;
         },
 
         getFileByName: (state, getters) => (name) => {
@@ -36,7 +42,11 @@ const vuex = new Vuex.Store({
         },
 
         setUser(state, user) {
-            state.user = user;
+            state.appState.user = user;
+        },
+
+        setAppState(state, appState) {
+            state.appState = appState;
         },
 
         updateFile(state, file) {

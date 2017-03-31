@@ -69,6 +69,7 @@ export default {
                 uploadMultiple: false,
                 autoProcessQueue: false,
                 maxFilesize: 15,
+                maxFiles: this.webImagesPerShrink,
                 headers: {
                     'X-CSRF-TOKEN': window.SMI.csrfToken,
                 },
@@ -238,6 +239,12 @@ export default {
 
     },
 
+    watch: {
+        webImagesPerShrink(newVal) {
+            this.dropzone.options.maxFiles = newVal;
+        }
+    },
+
     computed: {
         files() {
             return this.$store.getters.files;
@@ -245,6 +252,10 @@ export default {
 
         addButtonText() {
             return this.files.length >= 1 ? "Add more images" : "Add your images";
+        },
+
+        webImagesPerShrink() {
+            return this.$store.getters.webImagesPerShrink;
         }
 
     }
