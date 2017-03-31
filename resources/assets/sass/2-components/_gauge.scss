@@ -1,0 +1,29 @@
+.gauge-container {
+  width: 200px;
+  height: 200px;
+  display: block;
+  margin: 0 auto;
+
+  > .gauge {
+    > .dial {
+      stroke: #eee;
+      stroke-width: 20;
+      fill: rgba(0, 0, 0, 0);
+    }
+
+    > .value {
+      stroke: $action-color;
+      stroke-width: 20;
+      fill: rgba(0, 0, 0, 0);
+    }
+
+    > .value-text {
+      fill: $action-color;
+      font-family: $base-font-family;
+      font-weight: 100;
+      font-size: 7.5em;
+    }
+
+  }
+
+}

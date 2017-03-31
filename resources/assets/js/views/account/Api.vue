@@ -1,15 +1,12 @@
 <template>
     <div class="web-page">
-        Api
-
-        <personal-access-tokens>
-
-        </personal-access-tokens>
+        <api-usege-gauge></api-usege-gauge>
+        <personal-access-tokens></personal-access-tokens>
     </div>
 </template>
 
 <script>
-
+    import ApiUsegeGauge from '../../components/ApiUsageGauge.vue';
     import PersonalAccessTokens from '../../components/passport/PersonalAccessTokens.vue';
 
     export default {
@@ -21,6 +18,7 @@
         },
 
         components: {
+            ApiUsegeGauge,
             PersonalAccessTokens
         }
 

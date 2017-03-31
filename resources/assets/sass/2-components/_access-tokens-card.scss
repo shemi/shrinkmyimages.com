@@ -1,0 +1,75 @@
+.access-tokens-card {
+  background-color: rgba($light-gray, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba($light-gray, 0.3);
+
+  .loading-message,
+  .empty-message {
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 100;
+    padding: 30px 0;
+  }
+
+  table {
+    margin-bottom: 0;
+  }
+
+  .panel-heading {
+    font-size: 1.5em;
+    padding: 8px;
+    background-color: rgba($light-gray, 0.1);
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .action-link {
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: 0.7em;
+      cursor: pointer;
+    }
+
+  }
+
+  tr {
+    th,
+    td {
+      padding-right: 15px;
+      padding-left: 15px;
+      transition: background-color 0.4s ease;
+
+      &:last-child {
+        text-align: right;
+      }
+
+      a {
+        cursor: pointer;
+        color: $red;
+        font-size: 0.8em;
+        text-transform: uppercase;
+        opacity: 0;
+      }
+    }
+
+    &:last-child td{
+      border-bottom: 0;
+    }
+
+    &:focus,
+    &:hover {
+      td {
+        background-color: rgba($light-gray, 0.3);
+      }
+
+      a {
+        opacity: 1;
+      }
+    }
+
+  }
+
+}

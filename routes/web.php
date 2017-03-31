@@ -33,6 +33,8 @@ Route::get('shrink/{shrinkId}/download/{fileId?}', 'DownloadController@download'
 
 Route::get('page/{name}', 'PageController@show');
 
+Route::get('account/status', 'AccountController@status')->middleware(['auth']);
+
 Route::post('subscribe', 'SubscriptionController@subscribe');
 
 Route::get('/{subs?}', 'HomeController@index')->where(['subs' => '.*']);
