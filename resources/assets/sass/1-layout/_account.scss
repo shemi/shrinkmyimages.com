@@ -16,7 +16,23 @@
   .main-page-content {
     flex-grow: 1;
     padding-right: 50px;
+
   }
 
+  @include max-screen(1043px) {
+    .page-pad {
+      flex-direction: column-reverse;
+    }
+
+    .side-bar {
+      width: 100%;
+      border-left: 0;
+    }
+
+    .main-page-content {
+      padding-right: 0;
+
+    }
+  }
 
 }

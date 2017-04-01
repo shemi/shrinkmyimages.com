@@ -9,7 +9,18 @@ $section-border: 1px solid $medium-gray;
   max-width: 310px;
   z-index: 50;
   overflow: hidden;
-  padding-top: 100px;
+
+  .brand {
+    display: block;
+    text-align: center;
+    padding: ($base-spacing / 2) 0;
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+  }
 
   .card-actions {
     position: relative;

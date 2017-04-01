@@ -24,4 +24,29 @@
 
   }
 
+  @include max-screen(1043px) {
+    margin-bottom: 25px;
+
+    ul {
+      border-bottom: 1px solid $light-gray;
+    }
+
+    li {
+      display: inline-block;
+
+      &:first-child {
+        border-top: 0;
+      }
+
+      &:last-child {
+        float: right;
+      }
+
+      a {
+        border-bottom: 0;
+      }
+
+    }
+  }
+
 }
