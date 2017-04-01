@@ -17,6 +17,17 @@ body {
     padding: 0 50px;
   }
 
+  .back-button {
+    left: 50px;
+    top: 40px;
+    position: absolute;
+
+    svg {
+      transform: rotate(-180deg);
+    }
+
+  }
+
   @include max-screen(1267px) {
     width: 70%;
   }
@@ -26,6 +37,10 @@ body {
 
     .page-pad {
       padding: 0 25px 100px;
+    }
+
+    .back-button {
+      left: 25px;
     }
 
   }

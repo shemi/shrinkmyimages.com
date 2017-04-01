@@ -5,10 +5,6 @@
     <div class="page" id="page">
 
         <header class="app-header">
-            <router-link to="/" class="brand">
-                <img src="{{ url('/images/shrink-logo.png') }}" alt="shrink my images logo">
-            </router-link>
-
             @include('blade.navigation')
         </header>
 
