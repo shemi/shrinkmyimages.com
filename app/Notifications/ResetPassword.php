@@ -43,6 +43,7 @@ class ResetPassword extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+            ->subject('Shrink my images - Password reset request')
             ->line('You are receiving this email because we received a password reset request for your account.')
             ->action('Reset Password', route('password.reset', [
                 'token' => $this->token,
