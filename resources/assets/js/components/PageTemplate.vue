@@ -1,9 +1,11 @@
 <template>
-    <div class="page-content about-content">
-        <div class="page-pad">
-            <slot></slot>
+    <transition name="slide">
+        <div class="page-content about-content">
+            <div class="page-pad">
+                <slot></slot>
+            </div>
         </div>
-    </div>
+    </transition>
 </template>
 <script>
 

@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 .page-content {
   width: 60%;
   max-width: calc(100% - 330px);
@@ -6,10 +10,53 @@
   background-color: white;
   z-index: 50;
   margin: 0 0 0 auto;
-  padding: 100px 50px;
+  padding: 100px 0;
 
   .page-pad {
+    overflow: auto;
+    padding: 0 50px;
+  }
 
+  @include max-screen(1267px) {
+    width: 70%;
+  }
+
+  @include max-screen(1267px) {
+    padding: 100px 0 25px;
+
+    .page-pad {
+      padding: 0 25px 100px;
+    }
+
+  }
+
+  &.slide-enter-active {
+    animation: slide-in 0.2s ease-out;
+  }
+
+  &.slide-leave-active {
+    animation: slide-out 0.3s ease-in;
+  }
+  @keyframes slide-in {
+    0% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  @keyframes slide-out {
+    0% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
   }
 
 }
