@@ -109,47 +109,73 @@ class Balance extends Model
 
     /**
      * @param int $amount
+     * @param bool $save
      * @return $this
      */
-    public function addReserved($amount = 1)
+    public function addReserved($amount = 1, $save = true)
     {
         $this->reserved += $amount;
-        $this->save();
 
-        return $this;
-    }
-
-    /**
-     * @param int $amount
-     * @return $this
-     */
-    public function subtractReserved($amount = 1)
-    {
-        if($this->reserved > 0) {
-            $this->reserved -= $amount;
+        if ($save) {
             $this->save();
         }
 
         return $this;
     }
 
-    public function chargeReserved()
+    /**
+     * @param int $amount
+     * @param bool $save
+     * @return $this
+     */
+    public function subtractReserved($amount = 1, $save = true)
     {
-        $this->total += $this->reserved;
-        $this->reserved = 0;
-        $this->save();
+        if($this->reserved > 0) {
+            $this->reserved -= $amount;
+
+            if($save) {
+                $this->save();
+            }
+        }
 
         return $this;
     }
 
     /**
      * @param int $amount
+     * @param bool $save
      * @return $this
      */
-    public function addTotal($amount = 1)
+    public function chargeReserved($amount = 1, $save = true)
+    {
+        if($amount === 'all') {
+            $this->total += $this->reserved;
+            $this->reserved = 0;
+
+            if($save) {
+                $this->save();
+            }
+
+        } else {
+            $this->subtractReserved($amount, false)
+                ->addTotal($amount, $save);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param int $amount
+     * @param bool $save
+     * @return $this
+     */
+    public function addTotal($amount = 1, $save = true)
     {
         $this->total += $amount;
-        $this->save();
+
+        if($save) {
+            $this->save();
+        }
 
         return $this;
     }
@@ -158,11 +184,14 @@ class Balance extends Model
      * @param int $amount
      * @return $this
      */
-    public function subtractTotal($amount = 1)
+    public function subtractTotal($amount = 1, $save = true)
     {
         if($this->total > 0) {
             $this->total -= $amount;
-            $this->save();
+
+            if ($save) {
+                $this->save();
+            }
         }
 
         return $this;

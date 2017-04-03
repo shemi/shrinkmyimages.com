@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\BulkShrink;
 use App\Call;
+use App\Shrink;
 use App\Shrink\Repositories\GetRemoteImageRepository;
 use App\Shrink\Repositories\ShrinkRepository;
 use App\Shrink\Repositories\UploadRepository;
 use App\User;
+use Hashids;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -25,7 +28,7 @@ class ShrinkController extends ApiController
         /** @var User $user */
         $user = auth()->user();
 
-        if(! $user->balance->haveFreeCredits()) {
+        if (!$user->balance->haveFreeCredits()) {
             return $this->respondBadRequest('No enough credit');
         }
 
@@ -48,7 +51,7 @@ class ShrinkController extends ApiController
                 ]
             );
 
-            if($validator->fails()) {
+            if ($validator->fails()) {
                 $user->balance->subtractTotal();
                 $remoteUploadFile->deleteTempFile();
                 $this->createCallModel($request, $user, $shrink->id, 0);
@@ -60,7 +63,7 @@ class ShrinkController extends ApiController
 
         $file = $uploadRepository->upload($uploadFile, $shrink);
 
-        if($shrink->percent < 5) {
+        if ($shrink->percent < 5) {
             $user->balance->subtractTotal();
             $amount = 0;
         }
@@ -75,32 +78,85 @@ class ShrinkController extends ApiController
 
 
         $this->createCallModel($request, $user, $shrink->id, $amount);
-        $filePath = base_path("storage/app/{$file->path}");
 
-        return response()
-            ->download($filePath, $file->name, [
-                'X-TotalShrinks' => $user->balance->total_used,
-                'X-PrePaidShrinks-Remaining' => $user->balance->remainingFreeCredits(),
-                'X-ShrinkPercent' => $shrink->percent
+        $downloadId = Hashids::connection('shrinkFile')->encode([$shrink->id, $file->id]);
+
+        return $this->respond(
+            [
+                'shrinkPercent' => $shrink->percent,
+                'beforeSize' => $file->size_before,
+                'afterSize' => $file->size_after,
+                'fileType' => $file->ext,
+                'fileName' => $file->name,
+                'downloadUrlExpiredAt' => $shrink->expire_at->toDateTimeString(),
+                'downloadUrl' => url("api/v1/download/{$downloadId}/{$file->name}")
+            ]
+        );
+    }
+
+    public function bulk(Request $request)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        $validationRules = [
+            'callbackUrl' => 'required|url',
+            'securityType' => 'in:basic,token',
+            'images' => 'required|array|min:1',
+            'images.*' => 'string',
+            'baseUrl' => 'url',
+            'data' => 'json'
+        ];
+
+        $v = Validator::make($request->all(), $validationRules);
+
+        $v->sometimes('securityToken', 'required|string', function ($input) {
+            return $input->securityType == 'token';
+        });
+
+        $v->sometimes('securityToken.username', 'required|string', function ($input) {
+            return $input->securityType == 'basic';
+        });
+
+        $v->sometimes('securityToken.password', 'required|string', function ($input) {
+            return $input->securityType == 'basic';
+        });
+
+        if ($v->fails()) {
+            return $this->respondBadRequest($v->errors());
+        }
+
+        $images = collect($request->input('images'));
+        $baseUrl = $request->input('baseUrl', '');
+        $baseUrl = trim($baseUrl, '/');
+        $data = $request->input('data', []);
+        $securityType = $request->input('securityType', 'none');
+        $securityToken = $request->input('securityToken', []);
+        $callbackUrl = $request->input('callbackUrl');
+
+        $images = $images
+            ->map(function ($image) {
+                return trim(trim($image, '/'));
+            })
+            ->reject(function ($image) {
+                return empty($image);
+            });
+
+        if ($images->isEmpty()) {
+            return $this->respondUnprocessableEntity([
+                'images' => 'The images field is empty'
             ]);
-    }
+        }
 
-    public function bulk()
-    {
+        $shrink = new Shrink();
+        $bulkShrink = new BulkShrink();
 
-    }
+        if($user->balance->remainingFreeCredits() < $images->count()) {
 
-    private function createCallModel(Request $request, User $user, $shrinkId, $credit, $action = 'shrink')
-    {
-        $call = new Call();
-        $call->user_id = $user->id;
-        $call->shrink_id = $shrinkId;
-        $call->type = "ShrinkController@{$action}";
-        $call->status = 2;
-        $call->from_ip = $request->ip();
-        $call->credit = $credit;
-        $call->caller_identifier = $user->token()->id;
-        $call->save();
+        } else {
+            $user->balance->addReserved($images->count());
+        }
+
     }
 
 }

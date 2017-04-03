@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-03-05.
+    * Generated on 2017-04-03.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -54,6 +54,9 @@ namespace PHPSTORM_META {
             'clockwork.eloquent' instanceof \Clockwork\DataSource\EloquentDataSource,
             'clockwork' instanceof \Clockwork\Clockwork,
             'command.clockwork.clean' instanceof \Clockwork\Support\Laravel\ClockworkCleanCommand,
+            'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
+            'hashids' instanceof \Vinkla\Hashids\HashidsManager,
+            'hashids.connection' instanceof \Hashids\Hashids,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -190,6 +193,9 @@ namespace PHPSTORM_META {
             'clockwork.eloquent' instanceof \Clockwork\DataSource\EloquentDataSource,
             'clockwork' instanceof \Clockwork\Clockwork,
             'command.clockwork.clean' instanceof \Clockwork\Support\Laravel\ClockworkCleanCommand,
+            'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
+            'hashids' instanceof \Vinkla\Hashids\HashidsManager,
+            'hashids.connection' instanceof \Hashids\Hashids,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -326,6 +332,9 @@ namespace PHPSTORM_META {
             'clockwork.eloquent' instanceof \Clockwork\DataSource\EloquentDataSource,
             'clockwork' instanceof \Clockwork\Clockwork,
             'command.clockwork.clean' instanceof \Clockwork\Support\Laravel\ClockworkCleanCommand,
+            'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
+            'hashids' instanceof \Vinkla\Hashids\HashidsManager,
+            'hashids.connection' instanceof \Hashids\Hashids,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -462,6 +471,9 @@ namespace PHPSTORM_META {
             'clockwork.eloquent' instanceof \Clockwork\DataSource\EloquentDataSource,
             'clockwork' instanceof \Clockwork\Clockwork,
             'command.clockwork.clean' instanceof \Clockwork\Support\Laravel\ClockworkCleanCommand,
+            'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
+            'hashids' instanceof \Vinkla\Hashids\HashidsManager,
+            'hashids.connection' instanceof \Hashids\Hashids,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,

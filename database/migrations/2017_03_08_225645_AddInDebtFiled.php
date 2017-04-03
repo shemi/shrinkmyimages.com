@@ -27,8 +27,7 @@ class AddInDebtFiled extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->removeColumn('in_debt');
-            $table->removeColumn('debt_amount');
+            $table->dropColumn(['in_debt', 'debt_amount']);
         });
     }
 }

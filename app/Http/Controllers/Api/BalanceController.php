@@ -13,20 +13,9 @@ class BalanceController extends ApiController
     {
         /** @var User $user */
         $user = auth()->user();
+        $this->createCallModel($request, $user, null, 0, 'check');
 
-        $call = new Call();
-        $call->user_id = $user->id;
-        $call->type = 'BalanceController@check';
-        $call->status = 2;
-        $call->from_ip = $request->ip();
-        $call->credit = 0;
-        $call->caller_identifier = $user->token()->id;
-        $call->save();
-
-        return [
-            'totalShrinks' => $user->balance->total_used,
-            'remainingPrePaidShrinks' => $user->balance->remainingFreeCredits()
-        ];
+        return $this->respond([]);
     }
 
 }

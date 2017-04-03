@@ -177,6 +177,7 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
         Clockwork\Support\Laravel\ClockworkServiceProvider::class,
+        Vinkla\Hashids\HashidsServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -238,6 +239,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Zipper' => Chumper\Zipper\Zipper::class,
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
+        'Hashids' => Vinkla\Hashids\Facades\Hashids::class
 
     ],
 

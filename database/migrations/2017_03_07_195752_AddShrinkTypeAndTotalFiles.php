@@ -27,8 +27,7 @@ class AddShrinkTypeAndTotalFiles extends Migration
     public function down()
     {
         Schema::table('Shrinks', function (Blueprint $table) {
-            $table->removeColumn('type');
-            $table->removeColumn('total_files');
+            $table->dropColumn(['type', 'total_files']);
         });
     }
 }

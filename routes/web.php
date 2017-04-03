@@ -37,5 +37,5 @@ Route::get('account/status', 'AccountController@status')->middleware(['auth']);
 
 Route::post('subscribe', 'SubscriptionController@subscribe');
 
-Route::get('/{subs?}', 'HomeController@index')->where(['subs' => '.*']);
+Route::get('/{subs?}', 'HomeController@index')->where(['subs' => '^(?!api)(.*)$']);
 
