@@ -23,6 +23,7 @@ use Storage;
  * @property string $type
  * @property int $total_files
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\File[] $files
+ * @property-read \App\User $user
  * @property-read mixed $folder_path
  * @method static \Illuminate\Database\Query\Builder|\App\Shrink whereAfterTotalSize($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Shrink whereBeforeTotalSize($value)
@@ -52,6 +53,10 @@ class Shrink extends Model
         'updated_at'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function files()
     {

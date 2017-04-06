@@ -54,6 +54,11 @@ return [
             'length' => 16,
         ],
 
+        'bulkShrink' => [
+            'salt' => 'nZvGUJiYAdF6xsrfrJjz5kKD44eI4P2g',
+            'length' => 32,
+        ],
+
     ],
 
 ];

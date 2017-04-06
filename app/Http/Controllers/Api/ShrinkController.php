@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\BulkShrink;
+use App\BulkShrinkImages;
 use App\Call;
 use App\Shrink;
 use App\Shrink\Repositories\GetRemoteImageRepository;
@@ -11,12 +12,29 @@ use App\Shrink\Repositories\UploadRepository;
 use App\User;
 use Hashids;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Validator;
 
 class ShrinkController extends ApiController
 {
 
-    public function shrink(Request $request, ShrinkRepository $shrinkRepository, UploadRepository $uploadRepository)
+    /**
+     * @var ShrinkRepository
+     */
+    private $shrinkRepository;
+    /**
+     * @var UploadRepository
+     */
+    private $uploadRepository;
+
+    public function __construct(ShrinkRepository $shrinkRepository, UploadRepository $uploadRepository)
+    {
+
+        $this->shrinkRepository = $shrinkRepository;
+        $this->uploadRepository = $uploadRepository;
+    }
+
+    public function shrink(Request $request)
     {
         $amount = 0;
 
@@ -29,12 +47,12 @@ class ShrinkController extends ApiController
         $user = auth()->user();
 
         if (!$user->balance->haveFreeCredits()) {
-            return $this->respondBadRequest('No enough credit');
+            return $this->respondNoEnoughCredit();
         }
 
         $amount = 1;
         $user->balance->addTotal();
-        $shrink = $shrinkRepository->create($request, $user, 'api');
+        $shrink = $this->shrinkRepository->create($request, $user, 'api');
 
         if (!empty($request->file('image'))) {
             $uploadFile = $request->file('image');
@@ -61,7 +79,7 @@ class ShrinkController extends ApiController
 
         }
 
-        $file = $uploadRepository->upload($uploadFile, $shrink);
+        $file = $this->uploadRepository->upload($uploadFile, $shrink);
 
         if ($shrink->percent < 5) {
             $user->balance->subtractTotal();
@@ -94,6 +112,10 @@ class ShrinkController extends ApiController
         );
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function bulk(Request $request)
     {
         /** @var User $user */
@@ -103,7 +125,8 @@ class ShrinkController extends ApiController
             'callbackUrl' => 'required|url',
             'securityType' => 'in:basic,token',
             'images' => 'required|array|min:1',
-            'images.*' => 'string',
+            'images.*.url' => 'required|string',
+            'images.*.data' => 'json',
             'baseUrl' => 'url',
             'data' => 'json'
         ];
@@ -134,12 +157,21 @@ class ShrinkController extends ApiController
         $securityToken = $request->input('securityToken', []);
         $callbackUrl = $request->input('callbackUrl');
 
+        if($securityType == 'token' && is_string($securityToken)) {
+            $securityToken = ['token' => $securityToken];
+        }
+
         $images = $images
             ->map(function ($image) {
-                return trim(trim($image, '/'));
+                $image['url'] = trim(trim($image['url'], '/'));
+                $image['data'] = isset($image['data']);
+                $image['status'] = BulkShrinkImages::CREATED;
+
+                return $image;
             })
-            ->reject(function ($image) {
-                return empty($image);
+            ->unique('url')
+            ->reject(function (Collection $image) {
+                return empty($image->get('url'));
             });
 
         if ($images->isEmpty()) {
@@ -148,15 +180,42 @@ class ShrinkController extends ApiController
             ]);
         }
 
-        $shrink = new Shrink();
-        $bulkShrink = new BulkShrink();
-
         if($user->balance->remainingFreeCredits() < $images->count()) {
+            $this->createCallModel($request, $user, null, 0, 'bulk');
 
-        } else {
-            $user->balance->addReserved($images->count());
+            return $this->respondNoEnoughCredit();
         }
 
+        $user->balance->addReserved($images->count());
+
+        $shrink = $this->shrinkRepository->create($request, $user, 'api');
+        $call = $this->createCallModel($request, $user, $shrink->id, 0, 'bulk');
+
+        /** @var BulkShrink $bulkShrink */
+        $bulkShrink = BulkShrink::create([
+            'shrink_id' => $shrink->id,
+            'call_id' => $call->id,
+            'status' => BulkShrink::STATUS_CREATED,
+            'callback_url' => $callbackUrl,
+            'base_url' => $baseUrl,
+            'extra_fields' => $data,
+            'images' => $images,
+            'security_type' => $securityType,
+            'security_fields' => $securityToken,
+        ]);
+
+        $bulkShrink->images()->createMany($images->toArray());
+
+        $bulkShrinkPublicId = Hashids::connection('bulkShrink')
+            ->encode([$shrink->id, $bulkShrink->id]);
+
+
+
+        return $this->respond([
+            'totalImages' => $images->count(),
+            'bulkId' => $bulkShrinkPublicId,
+            'statusUrl' => url("api/v1/shrink/{$bulkShrinkPublicId}/status")
+        ]);
     }
 
 }

@@ -13,9 +13,16 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
+        'App\Events\BulkShrinkCreated' => [
+            'App\Listeners\ValidateCallbackUrl',
         ],
+        'App\Events\BulkShrinkVerified' => [
+            'App\Listeners\StartProcessingBulkShrink',
+        ],
+        'App\Events\BulkShrinkFail' => [
+            'App\Listeners\CancelBulkShrink',
+        ]
+
     ];
 
     /**
