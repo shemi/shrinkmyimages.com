@@ -20,7 +20,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\StartProcessingBulkShrink',
         ],
         'App\Events\BulkShrinkFail' => [
-            'App\Listeners\CancelBulkShrink',
+
         ]
 
     ];

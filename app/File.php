@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Hashids;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property-read mixed $directory
  * @property-read mixed $path
+ * @property-read mixed $full_path
  * @property-read mixed $reduced_percentage
  * @property-read \App\Shrink $shrink
  * @method static \Illuminate\Database\Query\Builder|\App\File whereCreatedAt($value)
@@ -56,6 +58,11 @@ class File extends Model
         return "{$this->directory}/{$this->md5_name}";
     }
 
+    public function getFullPathAttribute()
+    {
+        return storage_path("app/{$this->path}");
+    }
+
     public function getReducedPercentageAttribute()
     {
         if(! $this->size_before || ! $this->size_after) {
@@ -63,6 +70,20 @@ class File extends Model
         }
 
         return 100 - round(($this->size_after / $this->size_before) * 100, 2);
+    }
+
+    public function downloadId(Shrink $shrink = null)
+    {
+        if(! $shrink) {
+            $shrink = $this->shrink;
+        }
+
+        return Hashids::connection('shrinkFile')->encode([$shrink->id, $this->id]);
+    }
+
+    public function downloadUrl(Shrink $shrink = null)
+    {
+        return url("api/v1/download/{$this->downloadId($shrink)}/{$this->name}");
     }
 
 }

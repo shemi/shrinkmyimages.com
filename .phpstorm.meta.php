@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-04-03.
+    * Generated on 2017-04-07.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -56,7 +56,6 @@ namespace PHPSTORM_META {
             'command.clockwork.clean' instanceof \Clockwork\Support\Laravel\ClockworkCleanCommand,
             'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
-            'hashids.connection' instanceof \Hashids\Hashids,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -66,7 +65,7 @@ namespace PHPSTORM_META {
             'mailer' instanceof \Illuminate\Mail\Mailer,
             'Illuminate\Mail\Markdown' instanceof \Illuminate\Mail\Markdown,
             'queue' instanceof \Illuminate\Queue\QueueManager,
-            'queue.connection' instanceof \Illuminate\Queue\SyncQueue,
+            'queue.connection' instanceof \Illuminate\Queue\BeanstalkdQueue,
             'queue.worker' instanceof \Illuminate\Queue\Worker,
             'queue.listener' instanceof \Illuminate\Queue\Listener,
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
@@ -195,7 +194,6 @@ namespace PHPSTORM_META {
             'command.clockwork.clean' instanceof \Clockwork\Support\Laravel\ClockworkCleanCommand,
             'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
-            'hashids.connection' instanceof \Hashids\Hashids,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -205,7 +203,7 @@ namespace PHPSTORM_META {
             'mailer' instanceof \Illuminate\Mail\Mailer,
             'Illuminate\Mail\Markdown' instanceof \Illuminate\Mail\Markdown,
             'queue' instanceof \Illuminate\Queue\QueueManager,
-            'queue.connection' instanceof \Illuminate\Queue\SyncQueue,
+            'queue.connection' instanceof \Illuminate\Queue\BeanstalkdQueue,
             'queue.worker' instanceof \Illuminate\Queue\Worker,
             'queue.listener' instanceof \Illuminate\Queue\Listener,
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
@@ -334,7 +332,6 @@ namespace PHPSTORM_META {
             'command.clockwork.clean' instanceof \Clockwork\Support\Laravel\ClockworkCleanCommand,
             'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
-            'hashids.connection' instanceof \Hashids\Hashids,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -344,7 +341,7 @@ namespace PHPSTORM_META {
             'mailer' instanceof \Illuminate\Mail\Mailer,
             'Illuminate\Mail\Markdown' instanceof \Illuminate\Mail\Markdown,
             'queue' instanceof \Illuminate\Queue\QueueManager,
-            'queue.connection' instanceof \Illuminate\Queue\SyncQueue,
+            'queue.connection' instanceof \Illuminate\Queue\BeanstalkdQueue,
             'queue.worker' instanceof \Illuminate\Queue\Worker,
             'queue.listener' instanceof \Illuminate\Queue\Listener,
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
@@ -473,7 +470,6 @@ namespace PHPSTORM_META {
             'command.clockwork.clean' instanceof \Clockwork\Support\Laravel\ClockworkCleanCommand,
             'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
-            'hashids.connection' instanceof \Hashids\Hashids,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -483,7 +479,7 @@ namespace PHPSTORM_META {
             'mailer' instanceof \Illuminate\Mail\Mailer,
             'Illuminate\Mail\Markdown' instanceof \Illuminate\Mail\Markdown,
             'queue' instanceof \Illuminate\Queue\QueueManager,
-            'queue.connection' instanceof \Illuminate\Queue\SyncQueue,
+            'queue.connection' instanceof \Illuminate\Queue\BeanstalkdQueue,
             'queue.worker' instanceof \Illuminate\Queue\Worker,
             'queue.listener' instanceof \Illuminate\Queue\Listener,
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,

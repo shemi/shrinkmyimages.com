@@ -33,7 +33,7 @@ class Shrinker
     protected $image;
 
 
-    public function __construct(File &$file, Shrink $shrink = null)
+    public function __construct(File $file, Shrink $shrink = null)
     {
         if($shrink) {
             $this->shrink = $shrink;
@@ -42,64 +42,20 @@ class Shrinker
         }
 
         $this->file = $file;
-        $this->image = Image::make($this->getFileFullPath());
     }
 
     public function shrinkThis()
     {
-        $this->optimize()
-            ->updateModel();
-    }
-
-    protected function resize()
-    {
-        $toWith = $this->shrink->max_width;
-        $toHeight = $this->shrink->max_height;
-
-        if (!$toHeight && !$toWith) {
-            return $this;
-        }
-
-        $this->image->resize($toWith, $toHeight, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        });
-
-        return $this;
-    }
-
-    protected function getShrinkQuality()
-    {
-        return $this->qualities[$this->shrink->mode];
-    }
-
-    protected function getFileFullPath()
-    {
-        return storage_path("app/{$this->file->path}");
+        $this->optimize();
     }
 
     protected function optimize()
     {
-        $optimizer = new Optimizer($this->getFileFullPath(), $this->shrink->mode);
+        $optimizer = new Optimizer($this->file->full_path, $this->shrink->mode);
 
         $optimizer->optimize();
 
         return $this;
-    }
-
-    protected function save()
-    {
-        $this->image->save(
-            $this->getFileFullPath(),
-            $this->getShrinkQuality()
-        );
-
-        return $this;
-    }
-
-    protected function updateModel()
-    {
-        $this->file->size_after = StorageFile::size($this->getFileFullPath());
     }
 
 }

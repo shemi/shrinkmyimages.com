@@ -33,6 +33,15 @@ class UploadRepository
      * @var int
      */
     private $beforeSize;
+    /**
+     * @var GetRemoteImageRepository
+     */
+    private $remoteImageRepository;
+
+    public function __construct(GetRemoteImageRepository $remoteImageRepository = null)
+    {
+        $this->remoteImageRepository = $remoteImageRepository;
+    }
 
     /**
      * @param UploadedFile $uploadedFile
@@ -42,7 +51,6 @@ class UploadRepository
      */
     public function upload(UploadedFile $uploadedFile, Shrink $shrink)
     {
-
         return $this
             ->setShrink($shrink)
             ->setUpload($uploadedFile)
@@ -51,9 +59,8 @@ class UploadRepository
             ->createFileModel()
             ->storeFileInShrinkFolder()
             ->shrinkTheImage()
-            ->updateShrinkAfterTotalSize()
+            ->setAfterSizes()
             ->saveModels();
-
     }
 
     /**
@@ -69,8 +76,9 @@ class UploadRepository
     /**
      * @return $this
      */
-    public function updateShrinkAfterTotalSize()
+    public function setAfterSizes()
     {
+        $this->file->size_after = filesize($this->file->full_path);
         $this->shrink->after_total_size += $this->file->size_after;
 
         return $this;
@@ -132,6 +140,10 @@ class UploadRepository
     {
         $this->upload->storeAs($this->file->directory, $this->file->md5_name);
         $this->shrink->total_files += 1;
+
+        if($this->remoteImageRepository) {
+            $this->remoteImageRepository->deleteTempFile();
+        }
 
         return $this;
     }

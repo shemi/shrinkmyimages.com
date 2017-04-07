@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\BulkShrinkCreated;
+use App\Shrink\BulkShrinkManager;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -26,6 +27,9 @@ class ValidateCallbackUrl
      */
     public function handle(BulkShrinkCreated $event)
     {
-        //
+        $bulkShrinkManager = new BulkShrinkManager($event->bulkShrink, $event->shrink);
+
+
+
     }
 }

@@ -34,12 +34,22 @@ class BulkShrinkImages extends Model
     const CREATED = 0;
     const PROCESSING = 1;
     const SUCCESS = 2;
+    const SUCCESS_NOT_CHARGED = 3;
     const FAILED = 20;
     const NOT_IMAGE = 30;
     const TOO_BIG = 401;
     const NOT_FOUND = 404;
     const TIMEOUT = 408;
     const SERVER_ERROR = 500;
+
+    protected $fillable = [
+        'bulk_shrink_id',
+        'file_id',
+        'url',
+        'data',
+        'status',
+        'error_message',
+    ];
 
     public function file()
     {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\BulkShrink;
 use App\BulkShrinkImages;
 use App\Call;
+use App\Jobs\StartBulkShrink;
 use App\Shrink;
 use App\Shrink\Repositories\GetRemoteImageRepository;
 use App\Shrink\Repositories\ShrinkRepository;
@@ -97,8 +98,6 @@ class ShrinkController extends ApiController
 
         $this->createCallModel($request, $user, $shrink->id, $amount);
 
-        $downloadId = Hashids::connection('shrinkFile')->encode([$shrink->id, $file->id]);
-
         return $this->respond(
             [
                 'shrinkPercent' => $shrink->percent,
@@ -107,7 +106,7 @@ class ShrinkController extends ApiController
                 'fileType' => $file->ext,
                 'fileName' => $file->name,
                 'downloadUrlExpiredAt' => $shrink->expire_at->toDateTimeString(),
-                'downloadUrl' => url("api/v1/download/{$downloadId}/{$file->name}")
+                'downloadUrl' => $file->downloadUrl($shrink)
             ]
         );
     }
@@ -170,8 +169,8 @@ class ShrinkController extends ApiController
                 return $image;
             })
             ->unique('url')
-            ->reject(function (Collection $image) {
-                return empty($image->get('url'));
+            ->reject(function ($image) {
+                return empty($image['url']);
             });
 
         if ($images->isEmpty()) {
@@ -209,7 +208,7 @@ class ShrinkController extends ApiController
         $bulkShrinkPublicId = Hashids::connection('bulkShrink')
             ->encode([$shrink->id, $bulkShrink->id]);
 
-
+        $this->dispatch(new StartBulkShrink($bulkShrink, $shrink));
 
         return $this->respond([
             'totalImages' => $images->count(),
