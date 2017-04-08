@@ -2,12 +2,12 @@
 
 namespace App\Shrink\Optimizer;
 
+use App\Shrink\Exceptions\OptimizerFailException;
 use App\Shrink\Optimizer\Types\Gif;
 use App\Shrink\Optimizer\Types\Jpeg;
 use App\Shrink\Optimizer\Types\Png;
 use App\Shrink\Optimizer\Types\Svg;
 use App\Shrink\Optimizer\Types\Type;
-use Exception;
 
 class Optimizer
 {
@@ -116,14 +116,7 @@ class Optimizer
         logger('commend output: ' . json_encode($aOutput));
 
         if ($iResult !== 0) {
-            throw new Exception(
-                'image_optim was unable to optimise image,'
-                . ' result:' . $iResult
-                . ' commend: ' . $commend
-                . ' File: ' . $this->imagePath
-                . ' Log: ' . $log
-                . ' Out: ' . json_encode($aOutput)
-            );
+            throw new OptimizerFailException($iResult, $commend, $this->imagePath, $log, $aOutput);
         }
 
         return true;

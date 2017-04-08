@@ -3,16 +3,19 @@
 namespace App\Jobs;
 
 use App\BulkShrink;
-use Exception;
+use App\Shrink;
+use App\Shrink\BulkShrinkManager;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class RetryStartBulkShrink implements ShouldQueue
+class FinishBulkShrink implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    protected $bulkShrinkManager;
     /**
      * @var BulkShrink
      */
@@ -22,10 +25,12 @@ class RetryStartBulkShrink implements ShouldQueue
      * Create a new job instance.
      *
      * @param BulkShrink $bulkShrink
+     * @param Shrink $shrink
      */
-    public function __construct(BulkShrink $bulkShrink)
+    public function __construct(BulkShrink $bulkShrink, Shrink $shrink)
     {
         $this->bulkShrink = $bulkShrink;
+        $this->bulkShrinkManager = new BulkShrinkManager($bulkShrink, $shrink);
     }
 
     /**
@@ -35,7 +40,6 @@ class RetryStartBulkShrink implements ShouldQueue
      */
     public function handle()
     {
-        //
+        $this->bulkShrinkManager->finishBulkShrink();
     }
-
 }

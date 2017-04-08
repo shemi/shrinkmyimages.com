@@ -148,18 +148,9 @@ class Balance extends Model
      */
     public function chargeReserved($amount = 1, $save = true)
     {
-        if($amount === 'all') {
-            $this->total += $this->reserved;
-            $this->reserved = 0;
+        $this->subtractReserved($amount, false)
+            ->addTotal($amount, $save);
 
-            if($save) {
-                $this->save();
-            }
-
-        } else {
-            $this->subtractReserved($amount, false)
-                ->addTotal($amount, $save);
-        }
 
         return $this;
     }

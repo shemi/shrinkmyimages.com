@@ -2,6 +2,8 @@
 
 namespace App\Shrink\Repositories;
 
+use App\Shrink\Exceptions\RemoteFileHttpErrorException;
+use App\Shrink\Exceptions\RemoteFileNotImageException;
 use Illuminate\Http\UploadedFile;
 
 class GetRemoteImageRepository
@@ -88,8 +90,26 @@ class GetRemoteImageRepository
 
         curl_setopt_array($ch, $options);
         curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+
         curl_close($ch);
         fclose($fp);
+
+        $hasHttpError = ($httpCode < 200 || $httpCode >= 300);
+        $isNoteImage = (strchr($contentType, 'image') === false);
+
+        if($hasHttpError || $isNoteImage) {
+            $this->deleteTempFile();
+
+            if($hasHttpError) {
+                throw new RemoteFileHttpErrorException("Http error", $httpCode);
+            }
+
+            if($isNoteImage) {
+                throw new RemoteFileNotImageException("not image", $httpCode);
+            }
+        }
 
         return true;
     }

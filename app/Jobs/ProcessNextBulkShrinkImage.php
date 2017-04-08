@@ -3,7 +3,10 @@
 namespace App\Jobs;
 
 use App\BulkShrink;
+use App\BulkShrinkImages;
+use App\Shrink;
 use App\Shrink\BulkShrinkManager;
+use App\Shrink\Exceptions\BulkShrinkRequestFailException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -14,6 +17,8 @@ class ProcessNextBulkShrinkImage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $tries = 1;
+
     public $bulkShrinkManager;
 
     /**
@@ -21,15 +26,25 @@ class ProcessNextBulkShrinkImage implements ShouldQueue
      */
     public $bulkShrink;
 
+    public $nextBulkImage;
+
     /**
      * Create a new job instance.
      *
      * @param BulkShrink $bulkShrink
+     * @param Shrink $shrink
+     * @param BulkShrinkImages $bulkShrinkImages
      */
-    public function __construct(BulkShrink $bulkShrink)
+    public function __construct(BulkShrink $bulkShrink, Shrink $shrink, BulkShrinkImages $bulkShrinkImages = null)
     {
         $this->bulkShrink = $bulkShrink;
-        $this->bulkShrinkManager = new BulkShrinkManager($bulkShrink, $bulkShrink->shrink);
+        $this->bulkShrinkManager = new BulkShrinkManager($bulkShrink, $shrink);
+
+        if(! $bulkShrinkImages) {
+            $bulkShrinkImages = $bulkShrink->nextImage();
+        }
+
+        $this->nextBulkImage = $bulkShrinkImages;
     }
 
     /**
@@ -39,9 +54,21 @@ class ProcessNextBulkShrinkImage implements ShouldQueue
      */
     public function handle()
     {
-        $this->bulkShrinkManager->processNextImage();
+        if(! $this->bulkShrinkManager->processImage($this->nextBulkImage)) {
+            $this->bulkShrinkManager->doNextAction();
+        }
     }
 
 
+    public function failed(\Exception $e)
+    {
+        if($e instanceof BulkShrinkRequestFailException) {
+            $this->bulkShrinkManager->handelBulkCallbackFail($e->getCode());
+
+            return;
+        }
+
+        $this->bulkShrinkManager->doNextAction();
+    }
 
 }

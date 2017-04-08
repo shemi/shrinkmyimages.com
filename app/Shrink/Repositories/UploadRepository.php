@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Storage;
 
 class UploadRepository
 {
@@ -47,20 +48,31 @@ class UploadRepository
      * @param UploadedFile $uploadedFile
      * @param Shrink $shrink
      * @return File
+     * @throws Shrink\Exceptions\OptimizerFailException
      * @internal param Request $request
      */
     public function upload(UploadedFile $uploadedFile, Shrink $shrink)
     {
-        return $this
-            ->setShrink($shrink)
-            ->setUpload($uploadedFile)
-            ->setBeforeSize($this->upload->getSize())
-            ->updateShrinkBeforeTotalSize()
-            ->createFileModel()
-            ->storeFileInShrinkFolder()
-            ->shrinkTheImage()
-            ->setAfterSizes()
-            ->saveModels();
+        $this->setShrink($shrink);
+        $this->setUpload($uploadedFile);
+        $this->setBeforeSize($this->upload->getSize());
+        $this->updateShrinkBeforeTotalSize();
+        $this->createFileModel();
+        $this->storeFileInShrinkFolder();
+
+        try {
+            $this->shrinkTheImage();
+        } catch (Shrink\Exceptions\OptimizerFailException $e) {
+            $this->file->status = File::ERROR_STATUS;
+            Storage::delete($this->file->full_path);
+
+            throw $e;
+        }
+
+        $this->setAfterSizes();
+        $this->saveModels();
+
+        return $this->getFile();
     }
 
     /**

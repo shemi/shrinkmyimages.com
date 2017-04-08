@@ -94,9 +94,9 @@ class BulkShrink extends Model
      */
     public function hasNextImage()
     {
-        $this->_nextImage = $this->nextImage();
-
-        return (bool) $this->_nextImage;
+        return (bool) $this->images()
+                ->where('status', BulkShrinkImages::CREATED)
+                ->count();
     }
 
     /**
@@ -104,10 +104,6 @@ class BulkShrink extends Model
      */
     public function nextImage()
     {
-        if($this->_nextImage) {
-            return $this->_nextImage;
-        }
-
         return $this->images()
             ->where('status', BulkShrinkImages::CREATED)
             ->first();
